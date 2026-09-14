@@ -63,7 +63,32 @@ Também aceita `.png` e `.webp`. Enquanto o arquivo não existir, aparece um esp
 3. Com internet, abra o painel e toque em **Preparar para offline**. A partir daí funciona sem conexão.
 4. Configure o tablet: brilho alto, suspensão de tela desativada e fixação de tela (Android) ou Acesso Guiado (iPad), para o visitante não sair do app.
 
-Links diretos para cada módulo: `index.html?m=<id>` ou `index.html#/<id>`. Os ids são os nomes das pastas em `assets/modulos/`.
+## Links para gravar nas tags (celular do visitante)
+
+Grave em cada tag um registro **URL/URI** com o link do totem. Pelo app NFC Tools: Gravar → Adicionar registro → URL/URI. Quando o visitante aproxima o celular, a página do módulo abre direto.
+
+| Totem | Link |
+|---|---|
+| 01 · Administração | https://experiencia-nfc-maestro.vercel.app/?m=administracao |
+| 02 · Gestor | https://experiencia-nfc-maestro.vercel.app/?m=gestor |
+| 03 · Projetos | https://experiencia-nfc-maestro.vercel.app/?m=projetos |
+| 04 · Documentos | https://experiencia-nfc-maestro.vercel.app/?m=documentos |
+| 05 · Atendimento Interno | https://experiencia-nfc-maestro.vercel.app/?m=atendimento-interno |
+| 06 · Clientes | https://experiencia-nfc-maestro.vercel.app/?m=clientes |
+| 07 · Colaboradores | https://experiencia-nfc-maestro.vercel.app/?m=colaboradores |
+| 08 · Dashboards / BI | https://experiencia-nfc-maestro.vercel.app/?m=dashboards-bi |
+| 09 · Analítico | https://experiencia-nfc-maestro.vercel.app/?m=analitico |
+| 10 · Sensores | https://experiencia-nfc-maestro.vercel.app/?m=sensores |
+| 11 · Recrutamento e Seleção | https://experiencia-nfc-maestro.vercel.app/?m=recrutamento-selecao |
+| 12 · Oportunidades | https://experiencia-nfc-maestro.vercel.app/?m=oportunidades |
+| 13 · Pesquisas | https://experiencia-nfc-maestro.vercel.app/?m=pesquisas |
+| 14 · Treinamentos | https://experiencia-nfc-maestro.vercel.app/?m=treinamentos |
+| 15 · Loyalty | https://experiencia-nfc-maestro.vercel.app/?m=loyalty |
+| 16 · Suprimentos | https://experiencia-nfc-maestro.vercel.app/?m=suprimentos |
+
+Os links também aparecem no painel de configuração (segure o logo Maestro), com o botão **Copiar link** em cada módulo. Se o endereço do site mudar, atualize `config.urlBase` em `js/modulos.js`.
+
+**Modo visitante:** aberta por esses links num navegador comum (celular), a página não volta sozinha ao início, não avança as cenas e não pede tela cheia. O tablet do estande, instalado como app pela tela inicial, continua no modo totem. Para testar o modo totem por link, acrescente `&modo=totem`.
 
 ## Ajustes rápidos (`js/modulos.js`)
 

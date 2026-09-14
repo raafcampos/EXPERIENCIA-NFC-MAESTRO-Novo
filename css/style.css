@@ -419,6 +419,9 @@ body[data-view="module"] .blk { background: var(--accent); opacity: calc(var(--o
 .btn-link { display: inline-flex; align-items: center; gap: .7rem; font-size: .98rem; color: var(--ink-2); padding: .6rem 0; }
 .mod-count { font-family: var(--mono); font-size: .95rem; letter-spacing: .08em; color: var(--ink-3); }
 .mod-count b { font-weight: 400; color: var(--ink); }
+/* modo visitante (link no celular): sem contagem para voltar ao início e sem convite ao leitor */
+.is-visitor .idle-bar, .is-visitor .hint { display: none; }
+.is-visitor .btn-link { margin-left: auto; }
 
 /* ---------- Transição entre telas ---------- */
 .transition { position: fixed; inset: 0; z-index: 60; pointer-events: none; visibility: hidden; }
@@ -476,7 +479,9 @@ body[data-view="module"] .blk { background: var(--accent); opacity: calc(var(--o
 /* Configuração */
 .adm-body { flex: 1; min-height: 0; display: grid; grid-template-columns: 1.65fr 1fr; gap: 2rem; }
 .adm-list { overflow: auto; -webkit-overflow-scrolling: touch; border-top: 1px solid var(--line); }
-.adm-row { display: grid; grid-template-columns: 2.4rem 1fr 1.2fr auto; align-items: center; gap: 1rem; padding: .75rem .5rem; border-bottom: 1px solid var(--line); font-size: 1rem; transition: background .3s; }
+.adm-row .nm { display: flex; flex-direction: column; gap: .25rem; min-width: 0; }
+.adm-row .nm .link { font-size: .7rem; color: var(--ink-3); overflow: hidden; text-overflow: ellipsis; white-space: nowrap; user-select: text; -webkit-user-select: text; }
+.adm-row { display: grid; grid-template-columns: 2.4rem 1.5fr .9fr auto; align-items: center; gap: 1rem; padding: .75rem .5rem; border-bottom: 1px solid var(--line); font-size: 1rem; transition: background .3s; }
 .adm-row .n { font-family: var(--mono); font-size: .85rem; color: var(--ink-3); }
 .adm-row .tags { display: flex; flex-wrap: wrap; gap: .3rem; font-size: .85rem; color: var(--ink-3); }
 .adm-row .tags code { color: var(--ink-2); background: rgba(255,255,255,.07); padding: .2rem .45rem; border-radius: .35rem; font-size: .75rem; }

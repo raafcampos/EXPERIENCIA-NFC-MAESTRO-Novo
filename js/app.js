@@ -11,6 +11,18 @@
   MODS.forEach((m, i) => { m.n = i + 1; });
   const BY_ID = Object.fromEntries(MODS.map(m => [m.id, m]));
 
+  /* ---------- Modo visitante ----------
+     Página aberta pelo link gravado na tag (?m=<id>) em um navegador comum, por exemplo o celular do visitante:
+     não volta sozinha ao início, não avança cenas e não pede tela cheia.
+     O tablet do estande roda como app instalado (sem ?m=) e segue no modo totem. Forçar o totem: ?m=<id>&modo=totem */
+  const PARAMS = new URLSearchParams(location.search);
+  const LINK_ID = PARAMS.get('m') || PARAMS.get('modulo');
+  const INSTALLED = matchMedia('(display-mode: fullscreen), (display-mode: standalone)').matches || navigator.standalone === true;
+  const VISITOR = !!(LINK_ID && BY_ID[LINK_ID]) && !INSTALLED && PARAMS.get('modo') !== 'totem';
+
+  const URL_BASE = (CFG.urlBase || location.origin + location.pathname.replace(/index\.html$/, '')).replace(/\/+$/, '');
+  const linkFor = id => `${URL_BASE}/?m=${id}`;
+
   const $ = (s, el = document) => el.querySelector(s);
   const $$ = (s, el = document) => [...el.querySelectorAll(s)];
   const pad = n => String(n).padStart(2, '0');
@@ -224,7 +236,7 @@
 
     clearTimeout(S.sceneT);
     const sec = CFG.tempos.avancoCena;
-    if (sec > 0 && i < scenes.length - 1) S.sceneT = setTimeout(() => setScene(S.scene + 1), sec * 1000);
+    if (sec > 0 && !VISITOR && i < scenes.length - 1) S.sceneT = setTimeout(() => setScene(S.scene + 1), sec * 1000);
   }
 
   function moveTabIndicator() {
@@ -305,7 +317,7 @@
   function resetIdle() {
     clearTimeout(S.idleT);
     const bar = $('#idleBar');
-    if (S.view !== 'module') return;
+    if (S.view !== 'module' || VISITOR) return;
     const sec = CFG.tempos.voltarInicio;
     bar.style.transition = 'none'; bar.style.transform = 'scaleX(1)'; reflow(bar);
     bar.style.transition = `transform ${sec}s linear`; bar.style.transform = 'scaleX(0)';
@@ -318,7 +330,7 @@
       // adia o avanço automático enquanto a pessoa está mexendo
       clearTimeout(S.sceneT);
       const sec = CFG.tempos.avancoCena;
-      if (sec > 0 && S.scene < 2) S.sceneT = setTimeout(() => setScene(S.scene + 1), sec * 1000);
+      if (sec > 0 && !VISITOR && S.scene < 2) S.sceneT = setTimeout(() => setScene(S.scene + 1), sec * 1000);
     }
   }
 
@@ -352,11 +364,12 @@
       ].join('') || 'sem tag';
       return `<div class="adm-row ${S.learn === m.id ? 'is-learning' : ''}" data-id="${m.id}">
         <span class="n">${pad(m.n)}</span>
-        <span>${m.nome}</span>
+        <span class="nm">${m.nome}<code class="link">${linkFor(m.id).replace(/^https?:\/\//, '')}</code></span>
         <span class="tags">${S.learn === m.id ? 'Aproxime a tag…' : codes}</span>
         <span class="acts">
           <button class="btn-sm ${S.learn === m.id ? 'primary' : ''}" data-act="learn" type="button">${S.learn === m.id ? 'Cancelar' : 'Vincular'}</button>
           <button class="btn-sm" data-act="clear" type="button">Limpar</button>
+          <button class="btn-sm" data-act="link" type="button">Copiar link</button>
           <button class="btn-sm" data-act="open" type="button">Abrir</button>
         </span>
       </div>`;
@@ -512,12 +525,12 @@
 
   let wakeLock = null;
   async function keepAwake() {
-    if (!CFG.manterTelaLigada || !('wakeLock' in navigator) || wakeLock) return;
+    if (!CFG.manterTelaLigada || VISITOR || !('wakeLock' in navigator) || wakeLock) return;
     try { wakeLock = await navigator.wakeLock.request('screen'); wakeLock.addEventListener('release', () => { wakeLock = null; }); } catch { /* sem permissão */ }
   }
 
   function firstTouch() {
-    if (CFG.telaCheiaAoTocar && !document.fullscreenElement && document.documentElement.requestFullscreen) {
+    if (CFG.telaCheiaAoTocar && !VISITOR && !document.fullscreenElement && document.documentElement.requestFullscreen) {
       document.documentElement.requestFullscreen().catch(() => {});
     }
     keepAwake();
@@ -579,6 +592,10 @@
       if (b.dataset.act === 'learn') { S.learn = S.learn === id ? null : id; renderAdmin(); }
       if (b.dataset.act === 'clear') { clearTags(id); renderAdmin(); }
       if (b.dataset.act === 'open') { closeOverlay('admin'); openModule(id); }
+      if (b.dataset.act === 'link') {
+        const url = linkFor(id);
+        navigator.clipboard.writeText(url).then(() => toast('Link copiado', url)).catch(() => toast('Copie o link', url));
+      }
     });
     $('#btnWebNfc').addEventListener('click', () => startWebNfc());
     $('#btnCopy').addEventListener('click', async () => {
@@ -617,9 +634,9 @@
     }
 
     // Link direto para um módulo: index.html#/gestor ou index.html?m=gestor
+    document.body.classList.toggle('is-visitor', VISITOR);
     const fromHash = (location.hash.match(/^#\/([\w-]+)/) || [])[1];
-    const fromQuery = new URLSearchParams(location.search).get('m') || new URLSearchParams(location.search).get('modulo');
-    const start = fromHash || fromQuery;
+    const start = LINK_ID || fromHash;
     if (start && BY_ID[start]) setTimeout(() => openModule(start, 'link'), 300);
   }
 

@@ -7,6 +7,9 @@
 window.MAESTRO = {
 
   config: {
+    // Endereço publicado. Links das tags para o celular do visitante: <urlBase>/?m=<id do módulo>
+    urlBase: "https://experiencia-nfc-maestro.vercel.app",
+
     tempos: {
       voltarInicio: 90,      // segundos sem interação até voltar à tela inicial
       avancoCena: 14,        // segundos em cada cena do módulo (0 = não avança sozinho)
