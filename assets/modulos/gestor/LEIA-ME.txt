@@ -1,0 +1,8 @@
+Coloque aqui as mídias do módulo (nomes exatos):
+
+  capa.jpg     -> imagem da tela 'Visão geral' (ideal 1600x1200, 4:3)
+  video.mp4    -> vídeo da tela 'Funcionalidades' (1920x1080, H.264, sem áudio)
+  tela-1.jpg   -> se não houver vídeo, até 4 imagens em carrossel
+  tela-2.jpg      (tela-1.jpg ... tela-4.jpg, ideal 1920x1080, 16:9)
+
+Também aceita .png e .webp. Se o arquivo não existir, a página mostra um espaço reservado animado.

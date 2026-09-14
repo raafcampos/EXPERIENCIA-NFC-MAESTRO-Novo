@@ -1,0 +1,191 @@
+<!doctype html>
+<html lang="pt-BR">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover, user-scalable=no">
+  <meta name="theme-color" content="#0A0A0B">
+  <meta name="mobile-web-app-capable" content="yes">
+  <meta name="apple-mobile-web-app-capable" content="yes">
+  <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+  <title>Maestro · Experiência NFC</title>
+  <link rel="manifest" href="manifest.webmanifest">
+  <link rel="icon" href="assets/logos/icone-maestro.png">
+  <link rel="apple-touch-icon" href="assets/logos/icone-maestro.png">
+  <link rel="preload" href="assets/fonts/Maxeville-Regular.ttf" as="font" type="font/ttf" crossorigin>
+  <!-- Ao alterar CSS/JS, aumente o número de versão (?v=) para o tablet não usar arquivos antigos do cache -->
+  <link rel="stylesheet" href="css/style.css?v=5">
+</head>
+<body data-view="home">
+<div id="app">
+  <div class="bg" id="bg" aria-hidden="true"></div>
+  <div class="vignette" aria-hidden="true"></div>
+
+  <!-- ============ TELA INICIAL ============ -->
+  <section class="view view-home is-active" id="home">
+    <header class="topbar">
+      <img class="logo-maestro" id="logoHome" src="assets/logos/maestro-negativo.png" alt="Maestro" draggable="false">
+      <div class="topbar-right">
+        <img class="logo-sete" src="assets/logos/sete-negativo.png" alt="Sete" draggable="false">
+      </div>
+    </header>
+
+    <div class="home-main">
+      <div class="home-copy">
+        <h1 class="home-title">
+          <span class="line"><span class="reveal-up" style="--d:1">Conheça</span></span>
+          <span class="line"><span class="reveal-up" style="--d:2">cada módulo<i class="dot"></i></span></span>
+        </h1>
+        <p class="home-lead reveal" style="--d:3">Encoste um totem no leitor e descubra como o Maestro orquestra serviços, contratos, equipes e projetos em uma única plataforma.</p>
+        <button class="btn-ghost reveal" style="--d:4" id="btnExplorar" type="button">
+          <i class="sq"></i> Explore os módulos
+        </button>
+      </div>
+
+      <div class="home-visual reveal" style="--d:2" aria-hidden="true">
+        <div class="reader">
+          <!-- Leitor NFC em perspectiva -->
+          <div class="surface">
+            <span class="floor"></span>
+            <span class="puck-base"></span>
+            <div class="puck">
+              <span class="puck-bezel"></span>
+              <span class="puck-glass"></span>
+              <span class="puck-ticks"></span>
+              <span class="puck-progress"></span>
+              <span class="puck-glyph">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.4" stroke-linecap="round"><path d="M7 8.5a5 5 0 0 1 0 7"/><path d="M10.5 6a9 9 0 0 1 0 12"/><path d="M14 3.5a13 13 0 0 1 0 17"/></svg>
+              </span>
+              <span class="puck-glow"></span>
+              <span class="puck-core"></span>
+              <span class="ripple"></span><span class="ripple w2"></span>
+              <span class="puck-sheen"></span>
+              <span class="puck-led"></span>
+            </div>
+          </div>
+          <!-- Fluxo de dados do totem para o leitor -->
+          <span class="beam"><i></i><i></i><i></i><i></i></span>
+          <!-- Totem ao lado do leitor -->
+          <span class="totem-shadow"></span>
+          <div class="totem"><div class="totem-top"></div><div class="totem-bottom"></div></div>
+          <!-- Legenda -->
+          <div class="reader-label">
+            <span class="st st-wait">Aproxime o totem</span>
+            <span class="st st-read">Lendo módulo<b class="dots"><i>.</i><i>.</i><i>.</i></b></span>
+            <span class="st st-ok"><i class="sq"></i> Módulo identificado</span>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <footer class="marquee" id="marqueeWrap"><div class="marquee-track" id="marquee"></div></footer>
+  </section>
+
+  <!-- ============ PÁGINA DO MÓDULO ============ -->
+  <section class="view view-module" id="module">
+    <header class="topbar mod-topbar">
+      <button class="logo-btn" id="btnLogoModule" type="button" aria-label="Voltar ao início">
+        <img class="logo-maestro sm" src="assets/logos/maestro-negativo.png" alt="Maestro" draggable="false">
+      </button>
+      <nav class="scene-tabs" id="sceneTabs">
+        <span class="tab-ind" id="tabInd"></span>
+        <button type="button" data-scene="0">Visão geral</button>
+        <button type="button" data-scene="1">Como agrega valor</button>
+        <button type="button" data-scene="2">Funcionalidades</button>
+      </nav>
+      <button class="btn-close" id="btnClose" type="button">
+        Início
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"><path d="M6 6l12 12M18 6L6 18"/></svg>
+      </button>
+    </header>
+
+    <div class="scenes" id="scenes">
+      <div class="scenes-track" id="scenesTrack">
+        <article class="scene scene-overview" id="sceneOverview"></article>
+        <article class="scene scene-value" id="sceneValue"></article>
+        <article class="scene scene-features" id="sceneFeatures"></article>
+      </div>
+    </div>
+
+    <footer class="mod-footer">
+      <div class="idle-bar"><span id="idleBar"></span></div>
+      <div class="hint">
+        <span class="hint-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"><path d="M7 8.5a5 5 0 0 1 0 7M10.5 6a9 9 0 0 1 0 12M14 3.5a13 13 0 0 1 0 17"/></svg></span>
+        Aproxime outro módulo para continuar
+      </div>
+      <button class="btn-link" id="btnGridModule" type="button"><i class="sq"></i> Ver todos</button>
+      <div class="mod-count"><b id="modNum">01</b> / <span id="modTotal">16</span></div>
+    </footer>
+  </section>
+
+  <!-- ============ TRANSIÇÃO ============ -->
+  <div class="transition" id="transition" aria-hidden="true">
+    <div class="tr-a"></div>
+    <div class="tr-sym"><i></i><i></i></div>
+    <div class="tr-content">
+      <span class="tr-num"><span id="trNum">01 · Operação</span></span>
+      <span class="tr-name"><span id="trName">Módulo</span></span>
+    </div>
+  </div>
+
+  <!-- ============ TODOS OS MÓDULOS ============ -->
+  <div class="overlay" id="grid">
+    <div class="overlay-head">
+      <div>
+        <img class="logo-maestro overlay-logo" src="assets/logos/maestro-negativo.png" alt="Maestro" draggable="false">
+        <h2>Os <span id="gridCount">16</span> módulos</h2>
+      </div>
+      <button class="btn-close" data-close type="button">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M19 12H5M11 6l-6 6 6 6"/></svg>
+        Voltar
+      </button>
+    </div>
+    <div class="grid" id="gridList"></div>
+  </div>
+
+  <!-- ============ CONFIGURAÇÃO (segure o logo Maestro por 2s ou Ctrl+Shift+A) ============ -->
+  <div class="overlay admin" id="admin">
+    <div class="overlay-head">
+      <div>
+        <p class="eyebrow">Equipe · Configuração</p>
+        <h2>Totens e tags NFC</h2>
+      </div>
+      <button class="btn-close" data-close type="button">
+        Fechar
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"><path d="M6 6l12 12M18 6L6 18"/></svg>
+      </button>
+    </div>
+    <div class="adm-body">
+      <div class="adm-list" id="admList"></div>
+      <aside class="adm-side">
+        <div class="adm-box">
+          <h3>Última leitura</h3>
+          <p class="last-read" id="lastRead">Nenhuma ainda</p>
+          <p>Toque em <b>Vincular</b> no módulo e aproxime a tag do totem. Para testar sem leitor, digite o número do módulo e pressione Enter.</p>
+        </div>
+        <div class="adm-box">
+          <h3>NFC do próprio tablet</h3>
+          <p id="webNfcInfo">Verificando…</p>
+          <button class="btn-sm primary" id="btnWebNfc" type="button" hidden>Ativar NFC do tablet</button>
+        </div>
+        <div class="adm-box">
+          <h3>Exportar vínculos</h3>
+          <p>Cole em <code>js/modulos.js</code> → <code>config.tags</code> para deixar os vínculos permanentes.</p>
+          <textarea id="admExport" readonly></textarea>
+          <button class="btn-sm" id="btnCopy" type="button">Copiar</button>
+        </div>
+        <div class="adm-box">
+          <h3>Uso offline</h3>
+          <p>Baixa textos, imagens e vídeos para o tablet funcionar sem internet no evento.</p>
+          <button class="btn-sm" id="btnOffline" type="button">Preparar para offline</button>
+        </div>
+      </aside>
+    </div>
+  </div>
+
+  <div class="toast" id="toast" role="status" aria-live="polite"></div>
+</div>
+
+<script src="js/modulos.js?v=6"></script>
+<script src="js/app.js?v=3"></script>
+</body>
+</html>
