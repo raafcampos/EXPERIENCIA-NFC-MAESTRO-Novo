@@ -277,6 +277,12 @@
     const capa = midia.capa ? midia.capa : await firstOf(exts(`${base}/capa`), probeImage);
     if (token !== S.token) return;
     capaEl.innerHTML = capa ? `<img class="kenburns" src="${capa}" alt="">` : placeholder(m, 'imagem de capa', `${base}/capa.jpg`);
+    if (capa) {
+      // telas largas do sistema ganham um quadro 16:10 para ocupar melhor o espaço
+      const im = $('img', capaEl);
+      const mark = () => capaEl.classList.toggle('wide', im.naturalWidth / im.naturalHeight > 1.6);
+      if (im.complete) mark(); else im.addEventListener('load', mark, { once: true });
+    }
 
     const galEl = $('#mediaGaleria');
     const video = midia.video ? midia.video : await probeVideo(`${base}/video.mp4`);
