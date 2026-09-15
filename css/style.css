@@ -359,7 +359,8 @@ body[data-view="module"] .blk { background: var(--accent); opacity: calc(var(--o
 }
 .media .kenburns { animation: kenburns 16s ease-in-out infinite alternate, fadeIn 1s var(--ease) both; }
 @keyframes kenburns { from { transform: scale(1); } to { transform: scale(1.04); } }
-.media .slide { opacity: 0; transition: opacity 1.4s var(--ease); }
+/* carrossel: sem o fadeIn da capa, que travava todas as telas visíveis (opacidade 1) e deixava só a última aparecendo */
+.media .slide { opacity: 0; transition: opacity 1.4s var(--ease); animation: kenburns 16s ease-in-out infinite alternate; }
 .media .slide.on { opacity: 1; }
 
 /* Espaço reservado para imagens/vídeos */
