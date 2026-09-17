@@ -206,8 +206,8 @@
   /* ---------- Exportação CSV ---------- */
   const COLUNAS = ['id', 'quiz', 'evento', 'dispositivo', 'inicio', 'fim', 'concluiu', 'teste',
     'perfil', 'pontuacao_total', 'nivel', 'gargalos', 'percentual_por_eixo', 'respostas', 'respostas_texto',
-    'vertical', 'porte_operacao', 'distribuicao_equipe', 'indice_aderencia', 'aderencia', 'fatores', 'dores',
-    'modulos_top3', 'plano_sugerido', 'capturou_contato', 'qr',
+    'vertical', 'porte_operacao', 'distribuicao_equipe', 'indice_aderencia', 'configuracao', 'fatores', 'dores',
+    'modulos', 'plano_sugerido', 'capturou_contato', 'qr',
     'contato_nome', 'contato_empresa', 'contato_cargo', 'contato_email', 'contato_whatsapp'];
 
   function valorDaColuna(s, c) {

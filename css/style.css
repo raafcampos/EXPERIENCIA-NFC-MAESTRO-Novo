@@ -658,6 +658,12 @@ body[data-view="module"] .blk { background: var(--accent); opacity: calc(var(--o
 .res-plano b { color: var(--lime); font-weight: 400; }
 .tag-app { font-family: var(--mono); font-size: .68rem; letter-spacing: .1em; text-transform: uppercase; color: var(--bg); background: var(--lime); padding: .18rem .5rem; border-radius: 999px; }
 .res-mod-extra { border-style: dashed; }
+/* a partir de 4 módulos o resultado usa duas colunas e cartões mais compactos */
+.res-mods-muitos { grid-template-columns: 1fr 1fr; gap: .7rem; }
+.res-mods-muitos .res-mod { padding: .9rem 1.1rem; gap: .3rem; }
+.res-mods-muitos .res-mod-n { font-size: 1.2rem; }
+.res-mods-muitos .res-mod-h { font-size: .9rem; line-height: 1.3; }
+.res-mods-muitos .res-mod-cta { display: none; }
 
 /* ---------- Tela de captura ---------- */
 .cap-stage { flex: 1; min-height: 0; display: flex; flex-direction: column; justify-content: center; }

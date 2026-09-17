@@ -103,7 +103,18 @@ Os links antigos `?q=maturidade` e `?q=conexao` continuam funcionando e levam ao
 
 **Diagnóstico.** Quatro eixos: Comprovação (P1), Efetivo e escala (P2 e P3), Dado e medição (P4 e P5) e Transparência (P6). Cada alternativa vale de 0 a 3, num total de 18. Os níveis são 0–4, 5–9, 10–14 e 15–18. Os dois gargalos são os eixos de menor percentual do próprio máximo, com desempate por pontuação absoluta e, depois, pela ordem Comprovação, Dado e medição, Efetivo e escala, Transparência. A tela não mostra a pontuação numérica, de propósito.
 
-**Maestro sob Medida.** O índice de aderência (0 a 12) soma capital humano (porte), recorrência, urgência e criticidade. Até 3 pontos, a tela diz que não há aderência e não recomenda módulo nenhum. Acima disso, entram os 3 módulos mais pontuados, com piso de 3 pontos, no máximo 2 do aplicativo, e o plano sugerido (Starter, Business ou Enterprise) pelo maior sinal entre porte e módulos. Nenhum valor em reais aparece na tela.
+**Maestro sob Medida.** O índice (0 a 12) soma capital humano (porte), recorrência, urgência e criticidade. O resultado não dá nota à operação: ele nomeia **o tamanho da configuração recomendada**, e por isso nenhuma faixa soa como recusa.
+
+| Índice | Faixa | Módulos no resultado |
+|---|---|---|
+| 10 a 12 | Configuração completa | até 6 |
+| 7 a 9 | Configuração ampla | até 5 |
+| 4 a 6 | Configuração focada | até 3 |
+| 0 a 3 | Configuração essencial | 1 frente + Aplicativo Maestro |
+
+Cada faixa tem um **piso de pontos** próprio: 3 pontos nas configurações essencial e focada, 2 pontos na ampla e na completa, para que o limite maior realmente renda mais módulos. O número de itens do aplicativo é limitado à metade das vagas, para a plataforma não parecer um app de celular. A partir de 4 módulos, o resultado usa duas colunas com cartões compactos. O plano sugerido (Starter, Business ou Enterprise) sai do maior sinal entre porte e módulos, e nenhum valor em reais aparece na tela.
+
+O índice continua gravado em `indice_aderencia` no CSV, junto com `configuracao`: a fila de follow-up segue ordenada por aderência real, mesmo que o visitante nunca veja essa palavra.
 
 **Configuração** (`config.quiz`, em `js/modulos.js`):
 

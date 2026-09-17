@@ -170,7 +170,8 @@
     'app-saida-estoque':     { app: true, nome: 'App · Saída de Estoque', frase: 'Dá baixa no material pelo celular, no momento da entrega.' },
     'app-ocorrencias':       { app: true, nome: 'App · Ocorrências', frase: 'Abre ocorrência com foto no momento em que acontece.' },
     'app-ler-qr':            { app: true, nome: 'App · Ler QR Code', frase: 'Identifica o equipamento apontando a câmera para o QR.' },
-    'app-offline':           { app: true, nome: 'Aplicativo Off-line', frase: 'Executa ordem de serviço onde não há sinal e sincroniza depois.' }
+    'app-offline':           { app: true, nome: 'Aplicativo Off-line', frase: 'Executa ordem de serviço onde não há sinal e sincroniza depois.' },
+    'app-maestro':           { app: true, nome: 'Aplicativo Maestro', frase: 'Leva a operação para o campo: presença, ocorrências, checklists e evidência pelo celular.' }
   };
 
   const ORDEM_FIXA = ['colaboradores', 'analitico', 'suprimentos', 'clientes', 'documentos', 'treinamentos',
@@ -298,11 +299,19 @@
         ]
       }
     ],
+    /* O enquadramento descreve o tamanho da configuração recomendada, não uma nota da operação:
+       nenhuma faixa soa como recusa e a de baixo mostra por onde começar.
+       O índice de 0 a 12 continua gravado na sessão, para ordenar a fila de follow-up.
+       `limite` é quantos módulos aparecem no resultado de cada faixa. */
     aderencia: [
-      { max: 3,  rotulo: 'Aderência baixa',   texto: 'Pelas suas respostas, a operação não tem hoje o volume nem a criticidade que justificam a plataforma. Vale conversar quando esse cenário mudar.' },
-      { max: 6,  rotulo: 'Aderência parcial', texto: 'O Maestro faz sentido em frentes específicas da sua operação, não nela inteira.' },
-      { max: 9,  rotulo: 'Aderência forte',   texto: 'Três dos quatro fatores que o Maestro trata estão presentes. A plataforma resolve a maior parte do que você descreveu.' },
-      { max: 12, rotulo: 'Aderência alta',    texto: 'A sua operação tem os quatro fatores que o Maestro foi feito para tratar.' }
+      { max: 3,  limite: 1, piso: 3, essencial: true, rotulo: 'Configuração essencial',
+        texto: 'O ganho está concentrado em uma frente. É por ela que a gente começaria, com o aplicativo junto desde o primeiro dia.' },
+      { max: 6,  limite: 3, piso: 3, rotulo: 'Configuração focada',
+        texto: 'Algumas frentes resolvem o que mais dói hoje. O resto da plataforma pode esperar.' },
+      { max: 9,  limite: 5, piso: 2, rotulo: 'Configuração ampla',
+        texto: 'A maior parte da sua operação entra agora, e o que sobrar vem numa segunda etapa.' },
+      { max: 12, limite: 6, piso: 2, rotulo: 'Configuração completa',
+        texto: 'A plataforma inteira conversa com a sua operação, do campo ao contrato.' }
     ]
   };
 
@@ -467,22 +476,34 @@
     const pDores = perguntas.find(x => x.id === 'dores');
     const porDor = id => !!(pDores && pDores.opcoes.some(o => dores.includes(o.valor) && (o.modulos || {})[id]));
 
+    // Piso por faixa: nas configurações maiores ele baixa, para o limite maior render mais módulos
+    const piso = faixa.piso || 3;
     const candidatos = Object.entries(placar)
-      .filter(([, p]) => p >= 3)
+      .filter(([, p]) => p >= piso)
       .sort((a, b) =>
         b[1] - a[1] ||
         (porDor(b[0]) ? 1 : 0) - (porDor(a[0]) ? 1 : 0) ||
         (ORDEM_FIXA.indexOf(a[0]) + 99) - (ORDEM_FIXA.indexOf(b[0]) + 99));
 
+    const limite = faixa.limite || 3;
+    const limiteApp = Math.max(2, Math.round(limite / 2));
     const top = [];
     let doApp = 0;
     for (const [id] of candidatos) {
-      if (top.length >= 3) break;
+      if (top.length >= limite) break;
       const ehApp = !!(CATALOGO[id] && CATALOGO[id].app);
-      if (ehApp && doApp >= 2) continue;
+      if (ehApp && doApp >= limiteApp) continue;
       if (ehApp) doApp++;
       top.push(id);
     }
+    // Configuração essencial: uma frente só, com o aplicativo junto
+    if (faixa.essencial) {
+      const primeiro = top.find(id => !(CATALOGO[id] || {}).app) || top[0];
+      top.length = 0;
+      if (primeiro) top.push(primeiro);
+      top.push('app-maestro');
+    }
+    if (!top.length) top.push('app-maestro');
 
     const porte = escolhas.porte;
     const extra = (['101-500', '500+'].includes(porte) && escolhas.entrada === 'estavel' && !top.includes('loyalty')) ? 'loyalty' : null;
@@ -494,8 +515,7 @@
     else if (top.some(id => ['treinamentos', 'documentos', 'analitico', 'clientes'].includes(id))) planoModulo = 'Business';
     const plano = escala[planoModulo] >= escala[planoPorte] ? planoModulo : planoPorte;
 
-    const baixa = indice <= 3;
-    return { escolhas, fatores, indice, faixa, top: baixa ? [] : top, extra: baixa ? null : extra, plano };
+    return { escolhas, fatores, indice, faixa, top, extra, plano };
   }
 
   /* =====================================================================
@@ -623,21 +643,6 @@
     const onde = { postos: 'em postos fixos', moveis: 'em equipes móveis', planta: 'em planta própria', mistura: 'em formatos misturados' }[r.escolhas.distribuicao] || '';
     const frase = `Para ${vertical.toLowerCase()}${porte ? ' com ' + porte : ''}${onde ? ', ' + onde : ''}…`;
 
-    if (!r.top.length) {
-      return `
-        <div class="res res-baixa">
-          <div class="res-left">
-            <p class="eyebrow anim" style="--i:0">${frase}</p>
-            <h2 class="res-title anim" style="--i:1">${r.faixa.rotulo}</h2>
-            <p class="res-text anim" style="--i:2">${r.faixa.texto}</p>
-            <div class="res-actions anim" style="--i:3">
-              <button class="btn-lime" data-captura type="button">Receber um resumo por e-mail</button>
-              <button class="btn-link" data-quiz-refazer type="button">Refazer</button>
-            </div>
-          </div>
-        </div>`;
-    }
-
     const cartao = (id, k, extra) => {
       const m = CATALOGO[id];
       if (!m) return '';
@@ -663,8 +668,8 @@
           </div>
         </div>
         <div class="res-right">
-          <p class="eyebrow anim" style="--i:2">Os módulos que conversam com a sua operação</p>
-          <div class="res-mods">
+          <p class="eyebrow anim" style="--i:2">${r.faixa.essencial ? 'Por onde começar' : 'Os módulos que conversam com a sua operação'}</p>
+          <div class="res-mods ${r.top.length > 3 ? 'res-mods-muitos' : ''}">
             ${r.top.map((id, k) => cartao(id, k)).join('')}
             ${r.extra ? cartao(r.extra, 3, true) : ''}
           </div>
@@ -696,8 +701,8 @@
       Object.assign(S.sessao, {
         vertical: r.escolhas.vertical, porte_operacao: r.escolhas.porte,
         distribuicao_equipe: r.escolhas.distribuicao,
-        fatores: r.fatores, indice_aderencia: r.indice, aderencia: r.faixa.rotulo,
-        dores: r.escolhas.dores || [], modulos_top3: r.top, plano_sugerido: r.plano
+        fatores: r.fatores, indice_aderencia: r.indice, configuracao: r.faixa.rotulo,
+        dores: r.escolhas.dores || [], modulos: r.top, plano_sugerido: r.plano
       });
     }
     gravarSessao();
