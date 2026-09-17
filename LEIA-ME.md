@@ -96,15 +96,44 @@ Os dois últimos botões da tela "Os 16 módulos" são quizzes, em amarelo cheio
 
 | Quiz | O que faz | Link direto |
 |---|---|---|
-| Termômetro da Operação | 6 perguntas; mostra o nível de maturidade (1 a 4), o diagnóstico, 3 próximos passos e os módulos que ajudam | `?q=maturidade` |
-| Maestro sob Medida | 6 perguntas; aponta os 3 módulos que mais conversam com a operação, com link para abrir cada um | `?q=conexao` |
+| Diagnóstico da Operação | Pergunta de perfil (presta, contrata ou os dois) + 6 perguntas. Mostra o nível (1 a 4), o diagnóstico na leitura do perfil escolhido, os 2 gargalos com a resposta dada e o próximo degrau | `?q=diagnostico` |
+| Maestro sob Medida | 10 perguntas em 3 blocos. Mostra o índice de aderência, os 3 módulos que mais conversam com a operação e o plano sugerido | `?q=recomendador` |
 
-- Textos, perguntas, pontuação e recomendações ficam em `js/quiz.js`.
-- No **Termômetro**, cada opção vale de 1 a 4 pontos e a faixa de pontos define o resultado (`resultados`, campo `max`).
-- No **Maestro sob Medida**, cada opção soma pesos para módulos (`modulos`) e os 3 mais pontuados aparecem no resultado.
-- Para conferir um resultado sem responder tudo: `?q=maturidade&respostas=1,2,2,3,2,3` (uma resposta por pergunta, de 1 a 4).
+Os links antigos `?q=maturidade` e `?q=conexao` continuam funcionando e levam aos quizzes novos.
+
+**Diagnóstico.** Quatro eixos: Comprovação (P1), Efetivo e escala (P2 e P3), Dado e medição (P4 e P5) e Transparência (P6). Cada alternativa vale de 0 a 3, num total de 18. Os níveis são 0–4, 5–9, 10–14 e 15–18. Os dois gargalos são os eixos de menor percentual do próprio máximo, com desempate por pontuação absoluta e, depois, pela ordem Comprovação, Dado e medição, Efetivo e escala, Transparência. A tela não mostra a pontuação numérica, de propósito.
+
+**Maestro sob Medida.** O índice de aderência (0 a 12) soma capital humano (porte), recorrência, urgência e criticidade. Até 3 pontos, a tela diz que não há aderência e não recomenda módulo nenhum. Acima disso, entram os 3 módulos mais pontuados, com piso de 3 pontos, no máximo 2 do aplicativo, e o plano sugerido (Starter, Business ou Enterprise) pelo maior sinal entre porte e módulos. Nenhum valor em reais aparece na tela.
+
+**Configuração** (`config.quiz`, em `js/modulos.js`):
+
+| Campo | Para que serve |
+|---|---|
+| `nomenclatura` | `sobria` (Reativo, Controlado, Monitorado, Integrado) ou `musical` (Desafinado, Ensaiando, Afinado, Orquestrado) |
+| `inatividade` | Segundos sem toque até voltar à tela inicial durante o quiz (padrão 30) |
+| `versaoRapida` | `true` deixa o recomendador com 6 perguntas, para quando a fila apertar |
+| `modoTeste` | `true` marca as respostas como teste da equipe, e elas ficam fora do agregado |
+| `minimoBenchmark` | Respostas mínimas para exibir o percentual "neste estande" (padrão 20) |
+| `dispositivo` | Identifica o tablet, útil com mais de um totem |
+| `endpoint` | Opcional: URL que recebe cada sessão (Apps Script, webhook). Vazio = só no tablet |
+
+- Textos, perguntas, pontuação e matriz de módulos ficam em `js/quiz.js`; a captura e o registro, em `js/captura.js`.
+- Para conferir um resultado sem responder tudo: `?q=diagnostico&perfil=contrata&respostas=4,4,4,3,4,4` (a posição da alternativa na tela, de 1 a 4).
 - Para mudar quais módulos saem da grade, edite `FORA_DA_GRADE` no topo do `js/quiz.js`.
-- No tablet, o quiz volta sozinho para a tela inicial após o tempo de inatividade. Aberto pelo link no celular, não volta.
+
+## Captura de contato e respostas
+
+No fim dos dois quizzes, o botão de receber o material abre a tela de captura:
+
+1. **Câmera**: lê o QR do crachá e guarda o link do código junto com a sessão. Usa o leitor nativo do Chrome quando existe e o `assets/vendor/jsqr.js` como reserva, o que cobre iPad e Safari.
+2. **Digitar**: nome, empresa, cargo, e-mail e WhatsApp opcional, com o texto de consentimento à vista.
+3. **Agora não**: fecha sem contato. A sessão continua gravada.
+
+**A câmera só funciona em HTTPS** (o site publicado) ou em `localhost`, e depende de conceder a permissão no aparelho. Teste isso no tablet antes do evento.
+
+**Onde ficam as respostas.** Tudo é gravado no próprio tablet, inclusive as sessões abandonadas no meio. No painel de configuração (segure o logo Maestro por 2 s) há a caixa **Respostas dos quizzes**, com a contagem e os botões **Exportar CSV** e **Apagar respostas**. O CSV traz perfil, respostas, nível, eixos, gargalos, aderência, dores, módulos, plano, contato e o link lido do QR.
+
+**Envio do material.** O app promete o e-mail e registra o contato; o envio em si é feito por vocês depois, a partir do CSV. Se quiser envio automático, preencha `config.quiz.endpoint` com a URL de um Apps Script ou webhook: o app manda cada sessão concluída e reenvia sozinho o que ficou pendente quando a internet voltar.
 
 ## Ajustes rápidos (`js/modulos.js`)
 

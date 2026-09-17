@@ -13,7 +13,7 @@
   <link rel="apple-touch-icon" href="assets/logos/icone-maestro.png">
   <link rel="preload" href="assets/fonts/Maxeville-Regular.ttf" as="font" type="font/ttf" crossorigin>
   <!-- Ao alterar CSS/JS, aumente o número de versão (?v=) para o tablet não usar arquivos antigos do cache -->
-  <link rel="stylesheet" href="css/style.css?v=10">
+  <link rel="stylesheet" href="css/style.css?v=12">
 </head>
 <body data-view="home">
 <div id="app">
@@ -139,6 +139,66 @@
     </footer>
   </section>
 
+  <!-- ============ CAPTURA DE CONTATO ============ -->
+  <section class="view view-captura" id="captura">
+    <header class="topbar">
+      <img class="logo-maestro sm" src="assets/logos/maestro-negativo.png" alt="Maestro" draggable="false">
+      <p class="eyebrow">Para receber o material completo</p>
+      <button class="btn-close" data-pular type="button">
+        Agora não
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"><path d="M6 6l12 12M18 6L6 18"/></svg>
+      </button>
+    </header>
+
+    <div class="cap-stage">
+      <div class="cap-bloco" data-etapa="leitura">
+        <div class="cap-cam">
+          <video id="capVideo" playsinline muted></video>
+          <canvas id="capCanvas" hidden></canvas>
+          <span class="cap-alvo"></span>
+        </div>
+        <div class="cap-texto">
+          <h2>Aproxime o QR do seu crachá</h2>
+          <p>A câmera lê o código do evento e enviamos o material completo para o e-mail do seu cadastro.</p>
+          <p class="cap-aviso" id="capAviso"></p>
+          <button class="btn-ghost" id="btnCapDigitar" type="button"><i class="sq"></i> Prefiro digitar o e-mail</button>
+          <p class="cap-consent">Os dados são usados para enviar o material e para contato sobre a plataforma Maestro.</p>
+        </div>
+      </div>
+
+      <div class="cap-bloco" data-etapa="formulario" hidden>
+        <div class="cap-texto">
+          <h2>Para onde enviamos?</h2>
+          <p>Leva menos de um minuto. O WhatsApp é opcional.</p>
+          <button class="btn-ghost" id="btnCapCamera" type="button"><i class="sq"></i> Voltar para a câmera</button>
+          <p class="cap-consent" id="capConsentimento"></p>
+        </div>
+        <form class="cap-form" id="capForm" novalidate>
+          <label>Nome<input name="nome" type="text" autocomplete="name" required></label>
+          <label>Empresa<input name="empresa" type="text" autocomplete="organization" required></label>
+          <label>Cargo<input name="cargo" type="text" autocomplete="organization-title"></label>
+          <label>E-mail<input name="email" type="email" inputmode="email" autocomplete="email" required></label>
+          <label>WhatsApp <small>opcional</small><input name="whatsapp" type="tel" inputmode="tel" autocomplete="tel"></label>
+          <p class="cap-erro" id="capErro"></p>
+          <div class="cap-form-acoes">
+            <button class="btn-lime" type="submit">Enviar</button>
+            <button class="btn-link" data-pular type="button">Agora não</button>
+          </div>
+        </form>
+      </div>
+
+      <div class="cap-bloco cap-obrigado" data-etapa="obrigado" hidden>
+        <div class="cap-texto">
+          <p class="eyebrow">Pronto</p>
+          <h2>Material a caminho</h2>
+          <p>Vamos enviar por e-mail o resultado completo, com os eixos abertos e as recomendações para a sua operação.</p>
+          <p class="cap-qr" id="capQrLido"></p>
+          <button class="btn-ghost" data-pular type="button"><i class="sq"></i> Voltar ao início</button>
+        </div>
+      </div>
+    </div>
+  </section>
+
   <!-- ============ TRANSIÇÃO ============ -->
   <div class="transition" id="transition" aria-hidden="true">
     <div class="tr-a"></div>
@@ -209,6 +269,7 @@
 
 <script src="js/modulos.js?v=8"></script>
 <script src="js/app.js?v=6"></script>
-<script src="js/quiz.js?v=2"></script>
+<script src="js/captura.js?v=1"></script>
+<script src="js/quiz.js?v=3"></script>
 </body>
 </html>

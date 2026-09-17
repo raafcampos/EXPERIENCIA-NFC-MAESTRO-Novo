@@ -25,6 +25,19 @@ window.MAESTRO = {
       tamanhoMinimo: 6        // tamanho mínimo do código para ser considerado uma tag
     },
 
+    // Quizzes do evento (ver js/quiz.js e js/captura.js)
+    quiz: {
+      evento: "SegSummit 2026",
+      dispositivo: "tablet-1",        // identifica o aparelho nas respostas, útil com mais de um totem
+      nomenclatura: "sobria",         // "sobria" (Reativo/Controlado/Monitorado/Integrado) ou "musical" (Desafinado/Ensaiando/Afinado/Orquestrado)
+      inatividade: 30,                // segundos sem toque até voltar à tela inicial durante o quiz
+      versaoRapida: false,            // true = recomendador com 6 perguntas, para quando a fila apertar
+      modoTeste: false,               // true marca as respostas como teste da equipe e as exclui do agregado
+      minimoBenchmark: 20,            // respostas mínimas para exibir o percentual "neste estande"
+      endpoint: "",                   // opcional: URL que recebe as sessões (Apps Script, webhook). Vazio = só no tablet
+      consentimento: "Ao enviar, você autoriza a Sete a usar seus dados para enviar o material e entrar em contato sobre a plataforma Maestro."
+    },
+
     // Vínculos fixos tag -> módulo. Os vínculos feitos pelo painel de configuração
     // ficam salvos no próprio tablet; use "Exportar" no painel e cole aqui para torná-los permanentes.
     tags: {

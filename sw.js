@@ -1,7 +1,7 @@
 /* Service worker: mantém a experiência funcionando sem internet no evento.
    Textos/código: rede primeiro (atualizações aparecem quando há conexão).
    Imagens, vídeos e fontes: cache primeiro. */
-const CACHE = 'maestro-nfc-v13'; // aumente junto com o ?v= do index.html
+const CACHE = 'maestro-nfc-v15'; // aumente junto com o ?v= do index.html
 const CORE = [
   './', 'index.html', 'css/style.css', 'js/modulos.js', 'js/app.js', 'manifest.webmanifest',
   'assets/logos/maestro-negativo.png', 'assets/logos/sete-negativo.png', 'assets/logos/icone-maestro.png',
