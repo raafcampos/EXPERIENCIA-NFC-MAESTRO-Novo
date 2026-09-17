@@ -672,7 +672,7 @@
           </div>
         </div>
         <div class="res-right">
-          <p class="eyebrow anim" style="--i:2">${r.faixa.essencial ? 'Por onde começar' : 'Os módulos que conversam com a sua operação'}</p>
+          <p class="eyebrow anim" style="--i:2">${r.faixa.essencial ? 'Por onde começar' : 'Módulos que mais conversam com suas necessidades'}</p>
           <div class="res-mods ${r.top.length > 3 ? 'res-mods-muitos' : ''}">
             ${r.top.map((id, k) => cartao(id, k)).join('')}
             ${r.extra ? cartao(r.extra, 3, true) : ''}
