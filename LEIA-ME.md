@@ -90,6 +90,22 @@ Os links também aparecem no painel de configuração (segure o logo Maestro), c
 
 **Modo visitante:** aberta por esses links num navegador comum (celular), a página não volta sozinha ao início, não avança as cenas e não pede tela cheia. O tablet do estande, instalado como app pela tela inicial, continua no modo totem. Para testar o modo totem por link, acrescente `&modo=totem`.
 
+## Quizzes
+
+Os dois últimos botões da tela "Os 16 módulos" são quizzes, em amarelo cheio. Eles ocupam o lugar de Administração e Dashboards / BI na grade; esses dois módulos continuam com página própria, acessíveis pela tag, pela faixa da tela inicial e como recomendação nos resultados.
+
+| Quiz | O que faz | Link direto |
+|---|---|---|
+| Termômetro da Operação | 6 perguntas; mostra o nível de maturidade (1 a 4), o diagnóstico, 3 próximos passos e os módulos que ajudam | `?q=maturidade` |
+| Maestro sob Medida | 6 perguntas; aponta os 3 módulos que mais conversam com a operação, com link para abrir cada um | `?q=conexao` |
+
+- Textos, perguntas, pontuação e recomendações ficam em `js/quiz.js`.
+- No **Termômetro**, cada opção vale de 1 a 4 pontos e a faixa de pontos define o resultado (`resultados`, campo `max`).
+- No **Maestro sob Medida**, cada opção soma pesos para módulos (`modulos`) e os 3 mais pontuados aparecem no resultado.
+- Para conferir um resultado sem responder tudo: `?q=maturidade&respostas=1,2,2,3,2,3` (uma resposta por pergunta, de 1 a 4).
+- Para mudar quais módulos saem da grade, edite `FORA_DA_GRADE` no topo do `js/quiz.js`.
+- No tablet, o quiz volta sozinho para a tela inicial após o tempo de inatividade. Aberto pelo link no celular, não volta.
+
 ## Ajustes rápidos (`js/modulos.js`)
 
 - `tempos.voltarInicio`: segundos sem interação até voltar à tela inicial (padrão 90).

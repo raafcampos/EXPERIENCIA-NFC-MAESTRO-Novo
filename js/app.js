@@ -21,7 +21,19 @@
   const VISITOR = !!(LINK_ID && BY_ID[LINK_ID]) && !INSTALLED && PARAMS.get('modo') !== 'totem';
 
   const URL_BASE = (CFG.urlBase || location.origin + location.pathname.replace(/index\.html$/, '')).replace(/\/+$/, '');
-  const linkFor = id => `${URL_BASE}/?m=${id}`;
+
+  /* Alvos de uma tag: um módulo ("gestor") ou um quiz ("quiz:maturidade") */
+  const ehQuiz = alvo => String(alvo).startsWith('quiz:');
+  const quizzes = () => window.MAESTRO_QUIZZES || [];
+  const linkFor = alvo => ehQuiz(alvo) ? `${URL_BASE}/?q=${String(alvo).slice(5)}` : `${URL_BASE}/?m=${alvo}`;
+  const nomeDoAlvo = alvo => ehQuiz(alvo)
+    ? (quizzes().find(q => q.id === String(alvo).slice(5)) || {}).nome || 'Quiz'
+    : (BY_ID[alvo] || {}).nome || alvo;
+  const abrirAlvo = alvo => {
+    if (ehQuiz(alvo)) { if (window.MAESTRO_ABRIR_QUIZ) window.MAESTRO_ABRIR_QUIZ(String(alvo).slice(5)); return true; }
+    if (BY_ID[alvo]) { openModule(alvo); return true; }
+    return false;
+  };
 
   const $ = (s, el = document) => el.querySelector(s);
   const $$ = (s, el = document) => [...el.querySelectorAll(s)];
@@ -363,17 +375,21 @@
   /* ---------- Painel de configuração ---------- */
   function renderAdmin() {
     const fixed = fixedTags(), local = localTags();
-    $('#admList').innerHTML = MODS.map(m => {
+    const itens = [
+      ...MODS.map(m => ({ alvo: m.id, nome: m.nome, n: pad(m.n) })),
+      ...quizzes().map((q, i) => ({ alvo: `quiz:${q.id}`, nome: q.nome, n: `Q${i + 1}`, quiz: true }))
+    ];
+    $('#admList').innerHTML = itens.map(it => {
       const codes = [
-        ...Object.keys(fixed).filter(k => fixed[k] === m.id && !(k in local)).map(k => `<code class="fixa" title="fixa em modulos.js">${k}</code>`),
-        ...Object.keys(local).filter(k => local[k] === m.id).map(k => `<code>${k}</code>`)
+        ...Object.keys(fixed).filter(k => fixed[k] === it.alvo && !(k in local)).map(k => `<code class="fixa" title="fixa em modulos.js">${k}</code>`),
+        ...Object.keys(local).filter(k => local[k] === it.alvo).map(k => `<code>${k}</code>`)
       ].join('') || 'sem tag';
-      return `<div class="adm-row ${S.learn === m.id ? 'is-learning' : ''}" data-id="${m.id}">
-        <span class="n">${pad(m.n)}</span>
-        <span class="nm">${m.nome}<code class="link">${linkFor(m.id).replace(/^https?:\/\//, '')}</code></span>
-        <span class="tags">${S.learn === m.id ? 'Aproxime a tag…' : codes}</span>
+      return `<div class="adm-row ${S.learn === it.alvo ? 'is-learning' : ''} ${it.quiz ? 'e-quiz' : ''}" data-id="${it.alvo}">
+        <span class="n">${it.n}</span>
+        <span class="nm">${it.nome}<code class="link">${linkFor(it.alvo).replace(/^https?:\/\//, '')}</code></span>
+        <span class="tags">${S.learn === it.alvo ? 'Aproxime a tag…' : codes}</span>
         <span class="acts">
-          <button class="btn-sm ${S.learn === m.id ? 'primary' : ''}" data-act="learn" type="button">${S.learn === m.id ? 'Cancelar' : 'Vincular'}</button>
+          <button class="btn-sm ${S.learn === it.alvo ? 'primary' : ''}" data-act="learn" type="button">${S.learn === it.alvo ? 'Cancelar' : 'Vincular'}</button>
           <button class="btn-sm" data-act="clear" type="button">Limpar</button>
           <button class="btn-sm" data-act="link" type="button">Copiar link</button>
           <button class="btn-sm" data-act="open" type="button">Abrir</button>
@@ -427,11 +443,11 @@
     $('#lastRead').textContent = code;
 
     if (S.learn) {
-      const mod = BY_ID[S.learn];
+      const nome = nomeDoAlvo(S.learn);
       saveTag(code, S.learn);
       S.learn = null;
       renderAdmin();
-      toast(`Tag vinculada a <b>${mod.nome}</b>`, code);
+      toast(`Tag vinculada a <b>${nome}</b>`, code);
       return;
     }
 
@@ -447,7 +463,11 @@
 
     const tags = allTags();
     const hit = codeVariants(code).find(c => tags[c]);
-    if (hit && BY_ID[tags[hit]]) { closeOverlay('admin'); openModule(tags[hit], source); return; }
+    if (hit) {
+      const alvo = tags[hit];
+      if (ehQuiz(alvo) && window.MAESTRO_ABRIR_QUIZ) { closeOverlay('admin'); window.MAESTRO_ABRIR_QUIZ(String(alvo).slice(5)); return; }
+      if (BY_ID[alvo]) { closeOverlay('admin'); openModule(alvo, source); return; }
+    }
 
     if (code.length >= CFG.leitor.tamanhoMinimo) toast('Tag não cadastrada. Segure o logo Maestro para vincular.', code);
   }
@@ -597,7 +617,7 @@
       const id = b.closest('.adm-row').dataset.id;
       if (b.dataset.act === 'learn') { S.learn = S.learn === id ? null : id; renderAdmin(); }
       if (b.dataset.act === 'clear') { clearTags(id); renderAdmin(); }
-      if (b.dataset.act === 'open') { closeOverlay('admin'); openModule(id); }
+      if (b.dataset.act === 'open') { closeOverlay('admin'); abrirAlvo(id); }
       if (b.dataset.act === 'link') {
         const url = linkFor(id);
         navigator.clipboard.writeText(url).then(() => toast('Link copiado', url)).catch(() => toast('Copie o link', url));
