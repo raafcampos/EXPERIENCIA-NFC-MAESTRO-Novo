@@ -200,12 +200,12 @@
     perguntas: [
       {
         id: 'vertical', bloco: 'A', formato: 'grade',
-        titulo: 'Em que setor a sua operação atua?',
+        titulo: 'Qual é o seu setor?',
         opcoes: VERTICAIS.map(v => ({ texto: v.texto, valor: v.id, vertical: v.peso }))
       },
       {
         id: 'porte', bloco: 'A',
-        titulo: 'Quantas pessoas trabalham na operação de campo?',
+        titulo: 'Quantas pessoas em campo?',
         opcoes: [
           { texto: 'De 21 a 100', valor: '21-100', fator: 1 },
           { texto: 'Mais de 500', valor: '500+', fator: 3 },
@@ -215,7 +215,7 @@
       },
       {
         id: 'distribuicao', bloco: 'A',
-        titulo: 'Onde essas pessoas trabalham?',
+        titulo: 'Onde a equipe fica?',
         opcoes: [
           { texto: 'Em postos fixos dentro do cliente', valor: 'postos', modulos: { colaboradores: 2, 'app-registro-presenca': 2, analitico: 1 } },
           { texto: 'Em equipes móveis, circulando entre locais', valor: 'moveis', modulos: { 'app-deslocamento': 2, 'app-offline': 1, analitico: 1 } },
@@ -225,7 +225,7 @@
       },
       {
         id: 'recorrencia', bloco: 'B',
-        titulo: 'Como são as atividades do dia a dia da sua operação?',
+        titulo: 'Como é o dia a dia?',
         opcoes: [
           { texto: 'Uma base de rotina com bastante demanda avulsa', fator: 2 },
           { texto: 'Rotinas fixas que se repetem todo dia ou toda semana', fator: 3 },
@@ -235,7 +235,7 @@
       },
       {
         id: 'urgencia', bloco: 'B',
-        titulo: 'Quando aparece uma demanda não planejada, em quanto tempo ela precisa ser atendida?',
+        titulo: 'Uma urgência precisa ser atendida em quanto tempo?',
         opcoes: [
           { texto: 'Em poucas horas', fator: 2 },
           { texto: 'Em minutos', fator: 3 },
@@ -245,7 +245,7 @@
       },
       {
         id: 'criticidade', bloco: 'B',
-        titulo: 'Se uma atividade programada deixa de ser executada, o que acontece?',
+        titulo: 'O que acontece se algo programado não é feito?',
         opcoes: [
           { texto: 'Multa, glosa ou quebra de cláusula contratual', fator: 2 },
           { texto: 'Risco à segurança de pessoas ou parada de operação', fator: 3 },
@@ -254,9 +254,9 @@
         ]
       },
       {
-        id: 'dores', bloco: 'C', formato: 'multipla', limite: 3,
+        id: 'dores', bloco: 'C', formato: 'multipla', limite: 8,
         titulo: 'O que hoje vive em planilha, papel ou WhatsApp?',
-        apoio: 'escolha até 3',
+        apoio: 'escolha quantas quiser',
         opcoes: [
           { texto: 'Escala e controle de ponto', valor: 'escala', modulos: { colaboradores: 3, 'app-registro-presenca': 2 } },
           { texto: 'Checklists e ordens de serviço', valor: 'checklists', modulos: { 'app-confirmacoes': 1, analitico: 1 } },
@@ -270,7 +270,7 @@
       },
       {
         id: 'transparencia', bloco: 'C',
-        titulo: 'O que o seu cliente ou contratante precisa enxergar da operação?',
+        titulo: 'O que o contratante precisa ver?',
         opcoes: [
           { texto: 'Relatórios periódicos', valor: 'relatorios', modulos: { analitico: 3, clientes: 1 } },
           { texto: 'Um painel em tempo real', valor: 'painel', modulos: { clientes: 3, analitico: 2 } },
@@ -280,7 +280,7 @@
       },
       {
         id: 'entrada', bloco: 'C',
-        titulo: 'Com que frequência entra gente nova na operação?',
+        titulo: 'Quando entra gente nova?',
         opcoes: [
           { texto: 'Todo mês', valor: 'mes', modulos: { 'recrutamento-selecao': 2, treinamentos: 1 } },
           { texto: 'Toda semana', valor: 'semana', modulos: { 'recrutamento-selecao': 3, treinamentos: 2, documentos: 1 } },
@@ -290,7 +290,7 @@
       },
       {
         id: 'ativos', bloco: 'C',
-        titulo: 'Tem algum ambiente ou ativo físico que alguém precisa ir até lá conferir?',
+        titulo: 'Alguém precisa ir conferir algo no local?',
         opcoes: [
           { texto: 'Periodicamente, em rondas ou inspeções', valor: 'periodico', modulos: { sensores: 2 } },
           { texto: 'Várias vezes por dia', valor: 'dia', modulos: { sensores: 3, analitico: 1 } },
@@ -418,7 +418,10 @@
      ===================================================================== */
   function calcularDiagnostico() {
     const q = DIAGNOSTICO;
-    const porPergunta = S.respostas.map((r, i) => q.perguntas[i].opcoes[r].pontos);
+    const porPergunta = q.perguntas.map((p, i) => {
+      const r = S.respostas[i];
+      return r == null ? 0 : p.opcoes[r].pontos;
+    });
     const total = porPergunta.reduce((a, b) => a + b, 0);
     const nivel = q.niveis.find(n => total <= n.max) || q.niveis[q.niveis.length - 1];
 
@@ -434,7 +437,8 @@
     const perfeito = eixos.every(e => e.pct === 100);
     const gargalos = perfeito ? [] : ordenados.slice(0, 2).map(e => {
       const idx = EIXOS[e.id].perguntas.slice().sort((a, b) => porPergunta[a] - porPergunta[b])[0];
-      return { ...e, frase: q.perguntas[idx].opcoes[S.respostas[idx]].frase };
+      const r = S.respostas[idx];
+      return { ...e, frase: r == null ? '' : q.perguntas[idx].opcoes[r].frase };
     });
 
     return { total, nivel, eixos, gargalos, perfeito };
@@ -583,7 +587,7 @@
           </button>`).join('')}
       </div>
       ${multipla ? `<div class="q-acoes anim" style="--i:9">
-        <span class="q-contador"><b>${marcadas.length}</b> de ${p.limite} escolhidas</span>
+        <span class="q-contador"><b>${marcadas.length}</b> ${marcadas.length === 1 ? 'escolhida' : 'escolhidas'}</span>
         <button class="btn-lime" data-confirmar type="button" ${marcadas.length ? '' : 'disabled'}>Continuar</button>
       </div>` : ''}`;
   }
@@ -689,8 +693,8 @@
       const r = calcularDiagnostico();
       Object.assign(S.sessao, {
         perfil: S.perfil,
-        respostas: S.respostas.map((k, i) => DIAGNOSTICO.perguntas[i].opcoes[k].pontos),
-        respostas_texto: S.respostas.map((k, i) => DIAGNOSTICO.perguntas[i].opcoes[k].texto),
+        respostas: DIAGNOSTICO.perguntas.map((p, i) => S.respostas[i] == null ? '' : p.opcoes[S.respostas[i]].pontos),
+        respostas_texto: DIAGNOSTICO.perguntas.map((p, i) => S.respostas[i] == null ? '' : p.opcoes[S.respostas[i]].texto),
         pontuacao_total: r.total,
         nivel: nomeDoNivel(r.nivel),
         percentual_por_eixo: Object.fromEntries(r.eixos.map(e => [e.id, e.pct])),
@@ -779,11 +783,13 @@
     const perfil = PARAMS.get('perfil');
     if (S.quiz.tipo === 'diagnostico') S.perfil = PERFIS[perfil] ? perfil : 'presta';
     const perguntas = perguntasDoQuiz(S.quiz);
-    S.respostas = respostas.split(',').map((n, i) => {
+    S.respostas = [];
+    respostas.split(',').forEach((n, i) => {
       const p = perguntas[i];
-      if (!p) return 0;
-      const k = Math.max(1, Math.min(p.opcoes.length, parseInt(n, 10) || 1)) - 1;
-      return p.formato === 'multipla' ? [k] : k;
+      const numero = parseInt(n, 10);
+      if (!p || !numero) return;  // posição vazia fica sem resposta, em vez de virar a primeira alternativa
+      const k = Math.max(1, Math.min(p.opcoes.length, numero)) - 1;
+      S.respostas[i] = p.formato === 'multipla' ? [k] : k;
     });
     S.etapa = perguntas.length + (S.quiz.tipo === 'diagnostico' ? 1 : 0) + 1;
     render();
