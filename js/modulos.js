@@ -41,7 +41,8 @@ window.MAESTRO = {
     // Vínculos fixos tag -> módulo. Os vínculos feitos pelo painel de configuração
     // ficam salvos no próprio tablet; use "Exportar" no painel e cole aqui para torná-los permanentes.
     tags: {
-      // "04A1B2C3D4E5F6": "gestor",
+      // formato: "ID da tag sem os dois-pontos": "id do módulo" (quiz: "quiz:diagnostico" ou "quiz:recomendador")
+      "04A7C2A4012289": "colaboradores",
     }
   },
 
