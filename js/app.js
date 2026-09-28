@@ -194,7 +194,7 @@
 
     $('#sceneOverview').innerHTML = `
       <div class="ov-copy">
-        <div class="ov-meta anim" style="--i:0"><span class="icon-chip">${iconOf(m.id)}</span><p class="eyebrow">Módulo ${pad(m.n)} · ${fam.nome}</p></div>
+        <div class="ov-meta anim" style="--i:0"><span class="icon-chip">${iconOf(m.id)}</span></div>
         <h2 class="mod-name ${nameCls} anim" style="--i:1">${m.nome}<i class="dot"></i></h2>
         <p class="mod-headline anim" style="--i:2">${m.headline}</p>
         <p class="mod-resumo anim" style="--i:3">${m.resumo}</p>
@@ -203,7 +203,7 @@
 
     $('#sceneValue').innerHTML = `
       <div class="anim" style="--i:0">
-        <p class="eyebrow">${m.nome} · Como agrega valor</p>
+        <p class="eyebrow">${m.nome} · Diferenciais</p>
         <h3 class="scene-title">O que muda na <span class="accent">sua operação</span></h3>
       </div>
       <div class="val-cards">
@@ -358,7 +358,6 @@
      OVERLAYS
      ===================================================================== */
   function buildGrid() {
-    $('#gridCount').textContent = MODS.length;
     $('#gridList').innerHTML = MODS.map((m, i) => `
       <button class="card" data-open="${m.id}" style="--c:${FAM[m.familia].cor};--i:${i}" type="button">
         <span class="card-top"><span class="card-n">${pad(m.n)}</span>${iconOf(m.id)}</span>
