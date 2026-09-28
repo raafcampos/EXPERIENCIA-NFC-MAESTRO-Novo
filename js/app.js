@@ -151,7 +151,9 @@
   function goHome() {
     clearTimeout(S.idleT); clearTimeout(S.sceneT);
     closeOverlay('grid');
-    if (S.view === 'home') return;
+    // Olha a tela realmente ativa: o quiz e a captura trocam de view sem passar por aqui,
+    // e conferir só o estado interno fazia os botões "Início" dessas telas não responderem.
+    if (document.body.dataset.view === 'home') return;
     S.mod = null;
     showView('home');
     document.body.style.removeProperty('--accent');

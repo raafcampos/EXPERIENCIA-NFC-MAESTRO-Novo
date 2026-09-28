@@ -43,6 +43,7 @@ window.MAESTRO = {
     tags: {
       // formato: "ID da tag sem os dois-pontos": "id do módulo" (quiz: "quiz:diagnostico" ou "quiz:recomendador")
       "04A7C2A4012289": "colaboradores",
+      "0447CF9D012289": "treinamentos",
     }
   },
 
