@@ -474,17 +474,20 @@ body[data-view="module"] .blk { background: var(--accent); opacity: calc(var(--o
 .overlay-head .overlay-logo { height: 1.8rem; margin-bottom: 1.2rem; }
 .grid { flex: 1; min-height: 0; display: grid; grid-template-columns: repeat(4, 1fr); grid-auto-rows: 1fr; gap: .9rem; }
 /* Aplicativo Maestro: atalho compacto na barra superior, entre o título e o Voltar */
-.destaque-topo { margin-left: auto; margin-right: 1rem; align-self: center; }
-.destaque-topo .card { flex-direction: row; align-items: center; gap: .9rem; padding: .7rem 1.2rem; min-height: 0; border-radius: 999px; }
+.head-acoes { margin-left: auto; display: flex; align-items: center; gap: 1.2rem; }
+.destaque-topo { display: flex; align-items: center; }
+.destaque-topo .card { flex-direction: row; align-items: center; justify-content: center; gap: 1rem; padding: .85rem 1.5rem; min-height: 0; border-radius: 999px; background: var(--lime); border-color: var(--lime); color: var(--bg); }
 .destaque-topo .card-top { flex: none; }
 .destaque-topo .card-n { display: none; }
-.destaque-topo .card-top svg { width: 1.5rem; height: 1.5rem; }
-.destaque-topo .card-name { font-size: 1.15rem; white-space: nowrap; }
+.destaque-topo .card-top svg { width: 1.8rem; height: 1.8rem; color: var(--bg); }
+.destaque-topo .card-name { font-size: 1.4rem; white-space: nowrap; color: var(--bg); }
 .destaque-topo .card::after { display: none; }
+/* o atalho não entra com a animação dos cartões da grade, que o deixava deslocado e invisível */
+#gridDestaque .card { animation: none !important; transform: none !important; opacity: 1 !important; }
 /* nomes longos cabem em duas linhas sem cortar */
 .card-name { overflow-wrap: break-word; hyphens: auto; }
 /* cartões de quiz: nome menor e chamada limitada a duas linhas, para nada ficar cortado */
-.card-quiz .card-name { font-size: 1.45rem; }
+.card-quiz .card-name { font-size: 1.75rem; color: var(--bg); }
 .card-quiz .card-sub { display: none; }
 .card {
   position: relative; overflow: hidden; text-align: left;
@@ -494,10 +497,10 @@ body[data-view="module"] .blk { background: var(--accent); opacity: calc(var(--o
   transition: background .3s var(--ease), transform .35s var(--ease);
 }
 .card:active { transform: scale(.97); background: rgba(255,255,255,.09); }
-.card-top { display: flex; align-items: center; justify-content: space-between; }
+.card-top { display: flex; align-items: center; justify-content: flex-end; }
 .card-n { font-family: var(--mono); font-size: 1rem; letter-spacing: .08em; color: var(--ink-3); }
 .card-top svg { width: 2.1rem; height: 2.1rem; color: var(--c); }
-.card-name { font-size: 1.55rem; line-height: 1.1; letter-spacing: -.015em; }
+.card-name { font-size: 1.95rem; line-height: 1.08; letter-spacing: -.02em; color: var(--lime); }
 .card::after { content: ""; position: absolute; left: 0; bottom: 0; width: 100%; height: 3px; background: var(--c); transform: scaleX(.14); transform-origin: left; transition: transform .6s var(--ease); }
 .card:active::after { transform: scaleX(1); }
 .is-open .card { animation: fadeUp .7s var(--ease) both; animation-delay: calc(var(--i) * 28ms + 120ms); }
@@ -565,6 +568,7 @@ body[data-view="module"] .blk { background: var(--accent); opacity: calc(var(--o
 .card-quiz .card-top svg { color: var(--bg); width: 2.1rem; height: 2.1rem; }
 .card-quiz .card-name { font-size: 1.75rem; }
 .card-quiz .card-sub { display: none; }
+.card-quiz .card-top { justify-content: space-between; }
 .card-quiz::after { background: rgba(10, 10, 11, .3); }
 .card.fora-da-grade { display: none; }
 

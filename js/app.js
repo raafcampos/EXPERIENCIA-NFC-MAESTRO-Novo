@@ -45,18 +45,18 @@
   const ICONS = {
     'administracao': svg('<path d="M4 6h9M17 6h3M4 12h3M11 12h9M4 18h11M19 18h1"/><circle cx="15" cy="6" r="2"/><circle cx="9" cy="12" r="2"/><circle cx="17" cy="18" r="2"/>'),
     'aplicativo': svg('<rect x="7" y="2.5" width="10" height="19" rx="2.5"/><path d="M11 5.5h2M10.5 18.5h3"/>'),
-    'gestor': svg('<rect x="3" y="4" width="18" height="16" rx="3"/><path d="M7 9.5l1.8 1.8L12 8M7 15.5l1.8 1.8L12 14M15 10h3M15 16h3"/>'),
+    'gestor': svg('<path d="M10.3 3h3.4l.35 2.1c.6.2 1.15.5 1.65.9l2-.8 1.7 2.9-1.55 1.4a6.7 6.7 0 0 1 0 2l1.55 1.4-1.7 2.9-2-.8c-.5.4-1.05.7-1.65.9L13.7 21h-3.4l-.35-2.1c-.6-.2-1.15-.5-1.65-.9l-2 .8-1.7-2.9 1.55-1.4a6.7 6.7 0 0 1 0-2L4.6 8.1l1.7-2.9 2 .8c.5-.4 1.05-.7 1.65-.9z"/><circle cx="12" cy="12" r="2.6"/>'),
     'projetos': svg('<path d="M4 4v16h16"/><rect x="7" y="6" width="7" height="3" rx="1"/><rect x="10" y="11" width="9" height="3" rx="1"/><rect x="8" y="16" width="5" height="2.5" rx="1"/>'),
     'documentos': svg('<path d="M14 3H7a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h10a2 2 0 0 0 2-2V8z"/><path d="M14 3v5h5M9 13h6M9 17h4"/>'),
     'atendimento-interno': svg('<path d="M21 12a8.5 8.5 0 0 1-12.3 7.6L4 20.5l1-4.4A8.5 8.5 0 1 1 21 12z"/><path d="M9 10.5h6M9 13.5h4"/>'),
-    'clientes': svg('<rect x="3" y="4" width="18" height="13" rx="2"/><path d="M8 21h8M12 17v4"/><path d="M7 10.5s1.8-3 5-3 5 3 5 3-1.8 3-5 3-5-3-5-3z"/><circle cx="12" cy="10.5" r="1.2"/>'),
-    'colaboradores': svg('<circle cx="9" cy="8" r="3.2"/><path d="M3 20c0-3.3 2.7-6 6-6s6 2.7 6 6"/><circle cx="17" cy="9" r="2.4"/><path d="M16.5 14.2c2.6.3 4.5 2.6 4.5 5.8"/>'),
+    'clientes': svg('<circle cx="9" cy="8" r="3.2"/><path d="M3 20c0-3.3 2.7-6 6-6s6 2.7 6 6"/><circle cx="17" cy="9" r="2.4"/><path d="M16.5 14.2c2.6.3 4.5 2.6 4.5 5.8"/>'),
+    'colaboradores': svg('<rect x="4" y="3" width="16" height="18" rx="2.5"/><circle cx="9.3" cy="9" r="2.1"/><path d="M6.2 15.6c.5-1.6 1.7-2.5 3.1-2.5s2.6.9 3.1 2.5M14.6 8.4h3.1M14.6 11.4h3.1M7.4 18.6h9.2"/>'),
     'dashboards-bi': svg('<rect x="3" y="3" width="8" height="10" rx="2"/><rect x="13" y="3" width="8" height="6" rx="2"/><rect x="13" y="11" width="8" height="10" rx="2"/><rect x="3" y="15" width="8" height="6" rx="2"/>'),
     'analitico': svg('<path d="M3 20h18"/><path d="M5 16l4-5 4 3 5.5-7"/><circle cx="18.5" cy="7" r="1.6"/>'),
     'sensores': svg('<circle cx="12" cy="12" r="2"/><path d="M8.5 8.5a5 5 0 0 0 0 7M15.5 8.5a5 5 0 0 1 0 7M5.6 5.6a9 9 0 0 0 0 12.8M18.4 5.6a9 9 0 0 1 0 12.8"/>'),
     'recrutamento-selecao': svg('<circle cx="10" cy="10" r="6.5"/><path d="M15 15l5.5 5.5"/><circle cx="10" cy="8.6" r="2"/><path d="M6.7 13.6a4 4 0 0 1 6.6 0"/>'),
     'oportunidades': svg('<rect x="3" y="7" width="18" height="13" rx="2.5"/><path d="M9 7V5.5A1.5 1.5 0 0 1 10.5 4h3A1.5 1.5 0 0 1 15 5.5V7M3 13h18"/>'),
-    'pesquisas': svg('<path d="M4 5h16v11H9l-5 4z"/><path d="M8.5 12.5v-2M12 12.5V8M15.5 12.5v-3"/>'),
+    'pesquisas': svg('<rect x="3" y="4" width="18" height="16" rx="3"/><path d="M7 9.5l1.8 1.8L12 8M7 15.5l1.8 1.8L12 14M15 10h3M15 16h3"/>'),
     'treinamentos': svg('<path d="M2 9l10-5 10 5-10 5z"/><path d="M6 11v5c0 1.5 2.7 3 6 3s6-1.5 6-3v-5M22 9v6"/>'),
     'loyalty': svg('<circle cx="12" cy="9" r="6"/><path d="M12 6.2l.95 1.95 2.15.3-1.55 1.5.37 2.13L12 11.1l-1.92 1 .37-2.13-1.55-1.5 2.15-.3z"/><path d="M8.6 14l-1.4 7 4.8-2.4 4.8 2.4-1.4-7"/>'),
     'suprimentos': svg('<path d="M21 8l-9-5-9 5v8l9 5 9-5z"/><path d="M3 8l9 5 9-5M12 13v8"/>')
@@ -369,7 +369,7 @@
   function cartaoDeModulo(m, rotulo, i) {
     return `
       <button class="card" data-open="${m.id}" style="--c:${FAM[m.familia].cor};--i:${i}" type="button">
-        <span class="card-top"><span class="card-n">${rotulo}</span>${iconOf(m.id)}</span>
+        <span class="card-top">${iconOf(m.id)}</span>
         <span class="card-name">${m.nome}</span>
       </button>`;
   }
