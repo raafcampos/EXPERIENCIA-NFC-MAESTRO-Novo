@@ -77,7 +77,7 @@ Grave em cada tag um registro **URL/URI** com o link do totem. Pelo app NFC Tool
 | 07 · Colaboradores | https://experiencia-nfc-maestro-novo.vercel.app/?m=colaboradores |
 | 09 · Analítico | https://experiencia-nfc-maestro-novo.vercel.app/?m=analitico |
 | 10 · Sensores | https://experiencia-nfc-maestro-novo.vercel.app/?m=sensores |
-| 11 · Recrutamento e Seleção | https://experiencia-nfc-maestro-novo.vercel.app/?m=recrutamento-selecao |
+| 11 · Recrutamento | https://experiencia-nfc-maestro-novo.vercel.app/?m=recrutamento-selecao |
 | 12 · Oportunidades | https://experiencia-nfc-maestro-novo.vercel.app/?m=oportunidades |
 | 13 · Pesquisas | https://experiencia-nfc-maestro-novo.vercel.app/?m=pesquisas |
 | 14 · Treinamentos | https://experiencia-nfc-maestro-novo.vercel.app/?m=treinamentos |

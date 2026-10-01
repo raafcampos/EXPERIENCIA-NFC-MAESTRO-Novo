@@ -42,8 +42,7 @@ window.MAESTRO = {
     // ficam salvos no próprio tablet; use "Exportar" no painel e cole aqui para torná-los permanentes.
     tags: {
       // formato: "ID da tag sem os dois-pontos": "id do módulo" (quiz: "quiz:diagnostico" ou "quiz:recomendador")
-      "04A7C2A4012289": "colaboradores",
-      "0447CF9D012289": "treinamentos",
+      "0447CF9D012289": "analitico",
       "0427EF97012289": "loyalty",
       "0457CF9D012289": "oportunidades",
       "04178698012289": "quiz:diagnostico",
@@ -191,7 +190,7 @@ window.MAESTRO = {
     },
     {
       id: "recrutamento-selecao",
-      nome: "Recrutamento e Seleção",
+      nome: "Recrutamento",
       familia: "pessoas",
       headline: "Da vaga publicada à admissão, sem perder nenhum candidato.",
       resumo: "Administra o ciclo completo de recrutamento: divulgação de vagas, gestão de candidatos, validação de documentos e integração com sistemas de admissão.",

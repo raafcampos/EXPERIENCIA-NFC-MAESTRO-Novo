@@ -157,7 +157,7 @@
     'treinamentos':         { nome: 'Treinamentos', frase: 'Aplica e certifica a capacitação sem depender de sala e planilha.' },
     'atendimento-interno':  { nome: 'Chamados', frase: 'Centraliza as solicitações internas com categoria, histórico e responsável.' },
     'sensores':             { nome: 'Sensores', frase: 'Troca a ida até o local por leitura automática, com acionamento na plataforma.' },
-    'recrutamento-selecao': { nome: 'Recrutamento e Seleção', frase: 'Encurta o caminho da vaga até a admissão quando entra gente toda semana.' },
+    'recrutamento-selecao': { nome: 'Recrutamento', frase: 'Encurta o caminho da vaga até a admissão quando entra gente toda semana.' },
     'projetos':             { nome: 'Projetos', frase: 'Organiza obras e frentes por fase, prazo e responsável.' },
     'loyalty':              { nome: 'Loyalty', frase: 'Reconhece quem executa bem usando o dado que a operação já gera.' },
     'pesquisas':            { nome: 'Pesquisas', frase: 'Escuta equipe e contratante de forma estruturada, sem formulário paralelo.' },
