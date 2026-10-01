@@ -473,10 +473,19 @@ body[data-view="module"] .blk { background: var(--accent); opacity: calc(var(--o
 .overlay-head h2 { font-size: 3.2rem; font-weight: 400; letter-spacing: -.04em; line-height: 1; margin: .7rem 0 0; }
 .overlay-head .overlay-logo { height: 1.8rem; margin-bottom: 1.2rem; }
 .grid { flex: 1; min-height: 0; display: grid; grid-template-columns: repeat(4, 1fr); grid-auto-rows: 1fr; gap: .9rem; }
+/* destaque: ocupa dois blocos, centralizado acima da grade */
+.grid-destaque { flex: none; display: grid; grid-template-columns: repeat(4, 1fr); gap: .9rem; margin-bottom: .9rem; }
+.grid-destaque .card { grid-column: 2 / span 2; min-height: 5.2rem; }
+.grid-destaque .card-name { font-size: 1.7rem; }
+/* nomes longos cabem em duas linhas sem cortar */
+.card-name { overflow-wrap: break-word; hyphens: auto; }
+/* cartões de quiz: nome menor e chamada limitada a duas linhas, para nada ficar cortado */
+.card-quiz .card-name { font-size: 1.25rem; }
+.card-quiz .card-sub { display: none; }
 .card {
   position: relative; overflow: hidden; text-align: left;
   display: flex; flex-direction: column; justify-content: space-between;
-  padding: 1.35rem 1.5rem; border-radius: var(--r-md);
+  padding: 1rem 1.15rem; border-radius: var(--r-md);
   border: 1px solid var(--line); background: rgba(255,255,255,.035);
   transition: background .3s var(--ease), transform .35s var(--ease);
 }
@@ -484,7 +493,7 @@ body[data-view="module"] .blk { background: var(--accent); opacity: calc(var(--o
 .card-top { display: flex; align-items: center; justify-content: space-between; }
 .card-n { font-family: var(--mono); font-size: 1rem; letter-spacing: .08em; color: var(--ink-3); }
 .card-top svg { width: 2.1rem; height: 2.1rem; color: var(--c); }
-.card-name { font-size: 1.85rem; line-height: 1.08; letter-spacing: -.02em; }
+.card-name { font-size: 1.35rem; line-height: 1.12; letter-spacing: -.015em; }
 .card::after { content: ""; position: absolute; left: 0; bottom: 0; width: 100%; height: 3px; background: var(--c); transform: scaleX(.14); transform-origin: left; transition: transform .6s var(--ease); }
 .card:active::after { transform: scaleX(1); }
 .is-open .card { animation: fadeUp .7s var(--ease) both; animation-delay: calc(var(--i) * 28ms + 120ms); }

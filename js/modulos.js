@@ -44,6 +44,22 @@ window.MAESTRO = {
       // formato: "ID da tag sem os dois-pontos": "id do módulo" (quiz: "quiz:diagnostico" ou "quiz:recomendador")
       "04A7C2A4012289": "colaboradores",
       "0447CF9D012289": "treinamentos",
+      "0427EF97012289": "loyalty",
+      "0457CF9D012289": "oportunidades",
+      "04178698012289": "quiz:diagnostico",
+      "04278A9B012289": "gestor",
+      "04D77D98012289": "quiz:recomendador",
+      "0437C79A012289": "suprimentos",
+      "04C77D98012289": "pesquisas",
+      "04C7D69D012289": "recrutamento-selecao",
+      "0467929B012289": "treinamentos",
+      "04278698012289": "atendimento-interno",
+      "0487CE9A012289": "projetos",
+      "0477929B012289": "clientes",
+      "0497D69D012289": "sensores",
+      "0427C79A012289": "colaboradores",
+      "04A77D98012289": "documentos",
+      "04F7899B012289": "aplicativo",
     }
   },
 
@@ -57,17 +73,17 @@ window.MAESTRO = {
 
   modulos: [
     {
-      id: "administracao",
-      nome: "Administração",
+      id: "aplicativo",
+      nome: "Aplicativo Maestro",
       familia: "operacao",
-      headline: "A base que deixa a plataforma com a cara da sua operação.",
-      resumo: "Centraliza as configurações da plataforma: usuários, permissões, parâmetros e cadastros, garantindo operação segura e personalizada conforme a estrutura da organização.",
+      headline: "A operação no bolso de quem está em campo.",
+      resumo: "Leva a operação para o campo — chamados, presença, EPIs, treinamentos, ocorrências, equipamentos e controle de acesso — em um web app, sem instalação pela loja de aplicativos.",
       valor: [
-        { titulo: "Segurança de acesso", texto: "Perfis e permissões definem exatamente quem vê e quem altera cada informação da operação." },
-        { titulo: "Feito sob medida", texto: "Parâmetros e cadastros moldam o Maestro à estrutura real de cada organização, sem desenvolvimento extra." },
-        { titulo: "Governança central", texto: "Controles de acesso, medições e análises de uso reunidos em um único ambiente administrativo." }
+        { titulo: "Sem instalação", texto: "É um web app: o colaborador acessa pelo navegador do próprio celular e instala um atalho na tela inicial. Todos ficam sempre na versão mais recente, sem depender de atualização manual." },
+        { titulo: "Evidência no momento", texto: "Foto, hora e localização são registradas onde o serviço acontece, e não depois, na memória de quem relata." },
+        { titulo: "Funciona sem sinal", texto: "Para áreas sem conectividade, o Aplicativo Maestro Off-Line executa ordens de serviço e sincroniza assim que a conexão volta." }
       ],
-      funcionalidades: ["Gestão de usuários e perfis", "Controles de acesso e permissões", "Parâmetros da plataforma", "Cadastros e tabelas tipo", "Medições", "Análise de uso e dados"]
+      funcionalidades: ["Abertura e acompanhamento de chamados", "Registro de presença com hora e local", "Confirmações de EPIs, uniformes e treinamentos", "Ocorrências e acidentes com foto", "Deslocamentos e atendimento de motoristas", "Equipamentos e leitura de QR Code", "Controle de acesso de pessoas e veículos", "Saída de estoque e registros de itens", "Versão off-line para ordens de serviço"]
     },
     {
       id: "gestor",
@@ -110,7 +126,7 @@ window.MAESTRO = {
     },
     {
       id: "atendimento-interno",
-      nome: "Atendimento Interno",
+      nome: "Chamados",
       familia: "relacionamento",
       headline: "Chamados abertos em segundos e resolvidos com histórico completo.",
       resumo: "Abertura, acompanhamento e resolução de chamados internos, com categorias, anexos e histórico completo, agilizando a resposta das equipes responsáveis.",
@@ -146,19 +162,6 @@ window.MAESTRO = {
         { titulo: "Pessoa certa no posto", texto: "Requisitos por função garantem que cada colaborador esteja apto para a atividade que executa." }
       ],
       funcionalidades: ["Cadastro e vínculo a funções", "Controle de ponto", "Exames ocupacionais", "EPIs e uniformes", "Treinamentos obrigatórios", "Requisitos por função e riscos", "Combustível e veículos", "Relatórios de conformidade"]
-    },
-    {
-      id: "dashboards-bi",
-      nome: "Dashboards / BI",
-      familia: "inteligencia",
-      headline: "Todos os contratos, um só painel, em tempo real.",
-      resumo: "Painéis interativos que consolidam dados de múltiplos contratos em tempo real, evidenciando KPIs, progresso das atividades, recursos alocados e gargalos.",
-      valor: [
-        { titulo: "Decisões assertivas", texto: "Indicadores consolidados de diferentes contratos e atividades sustentam cada escolha." },
-        { titulo: "Gargalos visíveis", texto: "Atrasos e recursos mal alocados aparecem antes de impactar a entrega." },
-        { titulo: "Visão estratégica", texto: "Tendências e eficiência de processos à mão para planejar os próximos passos." }
-      ],
-      funcionalidades: ["Dashboard operacional", "Dashboard estratégico", "Análise de processos", "BI Publisher", "Disponibilidades", "Acessos ao sistema", "Processo de colaboradores", "Mapa de deslocamento"]
     },
     {
       id: "analitico",

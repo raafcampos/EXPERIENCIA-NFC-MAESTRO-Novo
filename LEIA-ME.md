@@ -69,14 +69,12 @@ Grave em cada tag um registro **URL/URI** com o link do totem. Pelo app NFC Tool
 
 | Totem | Link |
 |---|---|
-| 01 · Administração | https://experiencia-nfc-maestro-novo.vercel.app/?m=administracao |
 | 02 · Gestor | https://experiencia-nfc-maestro-novo.vercel.app/?m=gestor |
 | 03 · Projetos | https://experiencia-nfc-maestro-novo.vercel.app/?m=projetos |
 | 04 · Documentos | https://experiencia-nfc-maestro-novo.vercel.app/?m=documentos |
-| 05 · Atendimento Interno | https://experiencia-nfc-maestro-novo.vercel.app/?m=atendimento-interno |
+| 05 · Chamados | https://experiencia-nfc-maestro-novo.vercel.app/?m=atendimento-interno |
 | 06 · Clientes | https://experiencia-nfc-maestro-novo.vercel.app/?m=clientes |
 | 07 · Colaboradores | https://experiencia-nfc-maestro-novo.vercel.app/?m=colaboradores |
-| 08 · Dashboards / BI | https://experiencia-nfc-maestro-novo.vercel.app/?m=dashboards-bi |
 | 09 · Analítico | https://experiencia-nfc-maestro-novo.vercel.app/?m=analitico |
 | 10 · Sensores | https://experiencia-nfc-maestro-novo.vercel.app/?m=sensores |
 | 11 · Recrutamento e Seleção | https://experiencia-nfc-maestro-novo.vercel.app/?m=recrutamento-selecao |
@@ -92,7 +90,7 @@ Os links também aparecem no painel de configuração (segure o logo Maestro), c
 
 ## Quizzes
 
-Os dois últimos botões da tela "Os 16 módulos" são quizzes, em amarelo cheio. Eles ocupam o lugar de Administração e Dashboards / BI na grade; esses dois módulos continuam com página própria, acessíveis pela tag, pela faixa da tela inicial e como recomendação nos resultados.
+Os dois últimos botões da tela "Os módulos" são quizzes, em amarelo cheio. Eles ocupam o lugar de Administração e Dashboards / BI na grade; esses dois módulos continuam com página própria, acessíveis pela tag, pela faixa da tela inicial e como recomendação nos resultados.
 
 | Quiz | O que faz | Link direto |
 |---|---|---|

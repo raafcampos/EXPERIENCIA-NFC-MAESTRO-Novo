@@ -1,0 +1,5 @@
+Coloque aqui as mídias do módulo (nomes exatos):
+
+  capa.jpg     -> imagem da tela 'Visão geral'
+  video.mp4    -> vídeo da tela 'Funcionalidades'
+  tela-1.jpg   -> até 4 imagens em carrossel

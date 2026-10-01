@@ -23,7 +23,7 @@
   const pad = n => String(n).padStart(2, '0');
   const svg = p => `<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round">${p}</svg>`;
 
-  const FORA_DA_GRADE = ['administracao', 'dashboards-bi'];
+  const FORA_DA_GRADE = []; // nenhum módulo escondido: os quizzes entram como botões extras
 
   /* =====================================================================
      1) DIAGNÓSTICO
@@ -155,7 +155,7 @@
     'clientes':             { nome: 'Clientes', frase: 'Abre para o contratante a visão que ele hoje pede por e-mail.' },
     'documentos':           { nome: 'Documentos', frase: 'Guarda ASO, NR e certificado com prazo e aviso antes de vencer.' },
     'treinamentos':         { nome: 'Treinamentos', frase: 'Aplica e certifica a capacitação sem depender de sala e planilha.' },
-    'atendimento-interno':  { nome: 'Atendimento Interno', frase: 'Centraliza chamados e solicitações com histórico e responsável.' },
+    'atendimento-interno':  { nome: 'Chamados', frase: 'Centraliza as solicitações internas com categoria, histórico e responsável.' },
     'sensores':             { nome: 'Sensores', frase: 'Troca a ida até o local por leitura automática, com acionamento na plataforma.' },
     'recrutamento-selecao': { nome: 'Recrutamento e Seleção', frase: 'Encurta o caminho da vaga até a admissão quando entra gente toda semana.' },
     'projetos':             { nome: 'Projetos', frase: 'Organiza obras e frentes por fase, prazo e responsável.' },

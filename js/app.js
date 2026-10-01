@@ -44,6 +44,7 @@
   const svg = p => `<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round">${p}</svg>`;
   const ICONS = {
     'administracao': svg('<path d="M4 6h9M17 6h3M4 12h3M11 12h9M4 18h11M19 18h1"/><circle cx="15" cy="6" r="2"/><circle cx="9" cy="12" r="2"/><circle cx="17" cy="18" r="2"/>'),
+    'aplicativo': svg('<rect x="7" y="2.5" width="10" height="19" rx="2.5"/><path d="M11 5.5h2M10.5 18.5h3"/>'),
     'gestor': svg('<rect x="3" y="4" width="18" height="16" rx="3"/><path d="M7 9.5l1.8 1.8L12 8M7 15.5l1.8 1.8L12 14M15 10h3M15 16h3"/>'),
     'projetos': svg('<path d="M4 4v16h16"/><rect x="7" y="6" width="7" height="3" rx="1"/><rect x="10" y="11" width="9" height="3" rx="1"/><rect x="8" y="16" width="5" height="2.5" rx="1"/>'),
     'documentos': svg('<path d="M14 3H7a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h10a2 2 0 0 0 2-2V8z"/><path d="M14 3v5h5M9 13h6M9 17h4"/>'),
@@ -357,12 +358,22 @@
   /* =====================================================================
      OVERLAYS
      ===================================================================== */
-  function buildGrid() {
-    $('#gridList').innerHTML = MODS.map((m, i) => `
+  const DESTAQUE = 'aplicativo';  // ocupa dois blocos acima da grade
+
+  function cartaoDeModulo(m, rotulo, i) {
+    return `
       <button class="card" data-open="${m.id}" style="--c:${FAM[m.familia].cor};--i:${i}" type="button">
-        <span class="card-top"><span class="card-n">${pad(m.n)}</span>${iconOf(m.id)}</span>
+        <span class="card-top"><span class="card-n">${rotulo}</span>${iconOf(m.id)}</span>
         <span class="card-name">${m.nome}</span>
-      </button>`).join('');
+      </button>`;
+  }
+
+  function buildGrid() {
+    const destaque = MODS.find(m => m.id === DESTAQUE);
+    const demais = MODS.filter(m => m.id !== DESTAQUE);
+    const alvoDestaque = $('#gridDestaque');
+    if (alvoDestaque) alvoDestaque.innerHTML = destaque ? cartaoDeModulo(destaque, 'App', 0) : '';
+    $('#gridList').innerHTML = demais.map((m, i) => cartaoDeModulo(m, pad(i + 1), i + 1)).join('');
   }
 
   function openOverlay(id) { $(`#${id}`).classList.add('is-open'); if (id === 'admin') renderAdmin(); }
