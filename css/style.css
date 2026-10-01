@@ -473,19 +473,23 @@ body[data-view="module"] .blk { background: var(--accent); opacity: calc(var(--o
 .overlay-head h2 { font-size: 3.2rem; font-weight: 400; letter-spacing: -.04em; line-height: 1; margin: .7rem 0 0; }
 .overlay-head .overlay-logo { height: 1.8rem; margin-bottom: 1.2rem; }
 .grid { flex: 1; min-height: 0; display: grid; grid-template-columns: repeat(4, 1fr); grid-auto-rows: 1fr; gap: .9rem; }
-/* destaque: ocupa dois blocos, centralizado acima da grade */
-.grid-destaque { flex: none; display: grid; grid-template-columns: repeat(4, 1fr); gap: .9rem; margin-bottom: .9rem; }
-.grid-destaque .card { grid-column: 2 / span 2; min-height: 5.2rem; }
-.grid-destaque .card-name { font-size: 1.7rem; }
+/* Aplicativo Maestro: atalho compacto na barra superior, entre o título e o Voltar */
+.destaque-topo { margin-left: auto; margin-right: 1rem; align-self: center; }
+.destaque-topo .card { flex-direction: row; align-items: center; gap: .9rem; padding: .7rem 1.2rem; min-height: 0; border-radius: 999px; }
+.destaque-topo .card-top { flex: none; }
+.destaque-topo .card-n { display: none; }
+.destaque-topo .card-top svg { width: 1.5rem; height: 1.5rem; }
+.destaque-topo .card-name { font-size: 1.15rem; white-space: nowrap; }
+.destaque-topo .card::after { display: none; }
 /* nomes longos cabem em duas linhas sem cortar */
 .card-name { overflow-wrap: break-word; hyphens: auto; }
 /* cartões de quiz: nome menor e chamada limitada a duas linhas, para nada ficar cortado */
-.card-quiz .card-name { font-size: 1.25rem; }
+.card-quiz .card-name { font-size: 1.45rem; }
 .card-quiz .card-sub { display: none; }
 .card {
   position: relative; overflow: hidden; text-align: left;
   display: flex; flex-direction: column; justify-content: space-between;
-  padding: 1rem 1.15rem; border-radius: var(--r-md);
+  padding: 1.2rem 1.35rem; border-radius: var(--r-md);
   border: 1px solid var(--line); background: rgba(255,255,255,.035);
   transition: background .3s var(--ease), transform .35s var(--ease);
 }
@@ -493,7 +497,7 @@ body[data-view="module"] .blk { background: var(--accent); opacity: calc(var(--o
 .card-top { display: flex; align-items: center; justify-content: space-between; }
 .card-n { font-family: var(--mono); font-size: 1rem; letter-spacing: .08em; color: var(--ink-3); }
 .card-top svg { width: 2.1rem; height: 2.1rem; color: var(--c); }
-.card-name { font-size: 1.35rem; line-height: 1.12; letter-spacing: -.015em; }
+.card-name { font-size: 1.55rem; line-height: 1.1; letter-spacing: -.015em; }
 .card::after { content: ""; position: absolute; left: 0; bottom: 0; width: 100%; height: 3px; background: var(--c); transform: scaleX(.14); transform-origin: left; transition: transform .6s var(--ease); }
 .card:active::after { transform: scaleX(1); }
 .is-open .card { animation: fadeUp .7s var(--ease) both; animation-delay: calc(var(--i) * 28ms + 120ms); }
@@ -556,11 +560,11 @@ body[data-view="module"] .blk { background: var(--accent); opacity: calc(var(--o
 /* =====================================================================
    QUIZZES — dois últimos botões da grade e as telas de perguntas/resultado
    ===================================================================== */
-.card.card-quiz { background: var(--lime); border-color: var(--lime); color: var(--bg); }
+.card.card-quiz { background: var(--ink); border-color: var(--ink); color: var(--bg); }
 .card-quiz .card-n { color: rgba(10, 10, 11, .55); }
 .card-quiz .card-top svg { color: var(--bg); width: 2.1rem; height: 2.1rem; }
 .card-quiz .card-name { font-size: 1.75rem; }
-.card-quiz .card-sub { display: block; margin-top: .35rem; font-size: .95rem; line-height: 1.25; color: rgba(10, 10, 11, .72); }
+.card-quiz .card-sub { display: none; }
 .card-quiz::after { background: rgba(10, 10, 11, .3); }
 .card.fora-da-grade { display: none; }
 
@@ -629,8 +633,15 @@ body[data-view="module"] .blk { background: var(--accent); opacity: calc(var(--o
   .quiz-steps { display: none; }
 }
 
-/* ---------- Quiz: perfil, grade, múltipla escolha e "analisando" ---------- */
-.btn-lime { display: inline-flex; align-items: center; gap: .7rem; padding: 1rem 1.5rem; border-radius: 999px; background: var(--lime); color: var(--bg); font-size: 1.05rem; transition: transform .3s var(--ease), opacity .3s; }
+/* ---------- Quiz: ambiente branco, abertura, perfil, grade e "analisando" ---------- */
+.view-quiz { --accent: #F4F4EF; }
+.q-intro { flex: 1; display: flex; flex-direction: column; align-items: center; justify-content: center; text-align: center; gap: .6rem; }
+.q-intro-icone { display: grid; place-items: center; width: 4.6rem; height: 4.6rem; border-radius: 1.4rem; background: var(--accent); color: var(--bg); margin-bottom: .8rem; }
+.q-intro-icone svg { width: 2.4rem; height: 2.4rem; }
+.q-intro-nome { font-size: 5.4rem; font-weight: 400; letter-spacing: -.045em; line-height: 1; margin: 0; }
+.q-intro-chamada { font-size: 1.5rem; line-height: 1.3; color: var(--ink-2); max-width: 40rem; margin: .4rem 0 0; }
+.q-intro-meta { font-family: var(--mono); font-size: .85rem; letter-spacing: .14em; text-transform: uppercase; color: var(--ink-3); margin: .6rem 0 1.4rem; }
+.btn-lime { display: inline-flex; align-items: center; gap: .7rem; padding: 1rem 1.5rem; border-radius: 999px; background: var(--accent); color: var(--bg); font-size: 1.05rem; transition: transform .3s var(--ease), opacity .3s; }
 .btn-lime:active { transform: scale(.97); }
 .btn-lime[disabled] { opacity: .35; }
 

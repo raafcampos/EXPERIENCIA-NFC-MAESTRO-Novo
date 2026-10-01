@@ -165,17 +165,23 @@
     try { history.replaceState(null, '', id ? `#/${id}` : location.pathname + location.search.replace(/[?&]m(odulo)?=[^&]*/g, '')); } catch { /* file:// em alguns navegadores */ }
   }
 
-  function playTransition(m, onCover, onDone) {
+  // Transição genérica: os módulos usam a cor da família; o quiz usa branco, para marcar outro ambiente
+  function transicao({ rotulo, nome, cor }, onCover, onDone) {
     const tr = $('#transition');
-    const fam = FAM[m.familia];
-    tr.style.setProperty('--accent', fam.cor);
-    $('#trNum').textContent = `${pad(m.n)} · ${fam.nome}`;
-    $('#trName').textContent = m.nome;
-    $('.tr-name', tr).classList.toggle('long', m.nome.length > 13);
+    tr.style.setProperty('--accent', cor);
+    $('#trNum').textContent = rotulo;
+    $('#trName').textContent = nome;
+    $('.tr-name', tr).classList.toggle('long', nome.length > 13);
     tr.classList.remove('in', 'out'); reflow(tr);
     tr.classList.add('in');
     setTimeout(() => { onCover(); tr.classList.add('out'); }, 1050);
-    setTimeout(() => { tr.classList.remove('in', 'out'); onDone(); }, 1900);
+    setTimeout(() => { tr.classList.remove('in', 'out'); if (onDone) onDone(); }, 1900);
+  }
+  window.MAESTRO_TRANSICAO = transicao;
+
+  function playTransition(m, onCover, onDone) {
+    const fam = FAM[m.familia];
+    transicao({ rotulo: `${pad(m.n)} · ${fam.nome}`, nome: m.nome, cor: fam.cor }, onCover, onDone);
   }
 
   /* =====================================================================

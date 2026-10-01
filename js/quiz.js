@@ -43,7 +43,7 @@
 
   const DIAGNOSTICO = {
     id: 'diagnostico',
-    nome: 'Diagnóstico da Operação',
+    nome: 'Diagnóstico',
     chamada: 'Em 90 segundos, descubra o nível da gestão da sua operação em campo',
     tipo: 'diagnostico',
     icone: svg('<path d="M3 12h3.5l2-6 3.5 12 2.5-8 1.5 4H21"/>'),
@@ -192,7 +192,7 @@
 
   const RECOMENDADOR = {
     id: 'recomendador',
-    nome: 'Maestro sob Medida',
+    nome: 'Maestro Fit',
     chamada: 'Descubra quais módulos conversam com a sua operação',
     tipo: 'recomendador',
     icone: svg('<path d="M12 3v4M12 17v4M3 12h4M17 12h4"/><circle cx="12" cy="12" r="4"/><path d="M6.3 6.3l2.6 2.6M15.1 15.1l2.6 2.6M17.7 6.3l-2.6 2.6M8.9 15.1l-2.6 2.6"/>'),
@@ -325,7 +325,7 @@
   /* =====================================================================
      ESTADO
      ===================================================================== */
-  const S = { quiz: null, etapa: 0, perfil: null, respostas: [], sessao: null, idleT: null, calcT: null };
+  const S = { quiz: null, intro: false, etapa: 0, perfil: null, respostas: [], sessao: null, idleT: null, calcT: null };
 
   const PARAMS = new URLSearchParams(location.search);
   const LINK_Q = APELIDOS[PARAMS.get('q')] || PARAMS.get('q');
@@ -376,8 +376,13 @@
       teste: !!CQ.modoTeste, concluiu: false, capturou_contato: false
     };
     $$('.overlay').forEach(o => o.classList.remove('is-open'));
-    mostrarView();
-    render();
+    S.intro = true;
+    if (window.MAESTRO_TRANSICAO) {
+      window.MAESTRO_TRANSICAO({ rotulo: 'Quiz', nome: q.nome, cor: BRANCO }, () => { mostrarView(); render(); });
+    } else {
+      mostrarView();
+      render();
+    }
     try { history.replaceState(null, '', `?q=${id}`); } catch { /* file:// */ }
   }
 
@@ -534,7 +539,8 @@
     const totalEtapas = perguntas.length + (temPerfil ? 1 : 0);
 
     let html;
-    if (temPerfil && S.etapa === 0) html = telaPerfil(q);
+    if (S.intro) html = telaIntro(q, perguntas.length + (temPerfil ? 1 : 0));
+    else if (temPerfil && S.etapa === 0) html = telaPerfil(q);
     else if (S.etapa < totalEtapas) html = telaPergunta(q, perguntas, S.etapa - (temPerfil ? 1 : 0));
     else if (S.etapa === totalEtapas) html = telaCalculando();
     else html = q.tipo === 'diagnostico' ? telaResultadoDiagnostico() : telaResultadoRecomendador();
@@ -546,13 +552,29 @@
       `<i class="${i < S.etapa ? 'feito' : i === S.etapa ? 'atual' : ''}"></i>`).join('');
     $('#quizStep').textContent = pad(Math.min(S.etapa + 1, totalEtapas));
     $('#quizTotal').textContent = pad(totalEtapas);
-    $('#btnQuizBack').hidden = S.etapa === 0 || S.etapa > totalEtapas;
+    $('#btnQuizBack').hidden = S.intro || S.etapa === 0 || S.etapa > totalEtapas;
+    $('#quizSteps').style.visibility = S.intro ? 'hidden' : '';
 
     if (S.etapa === totalEtapas) {
       clearTimeout(S.calcT);
       S.calcT = setTimeout(() => { S.etapa++; render(); }, 2000);
     }
     if (S.etapa > totalEtapas) concluir();
+  }
+
+  const BRANCO = '#F4F4EF';
+
+  function telaIntro(q, totalPerguntas) {
+    const tempo = q.tipo === 'diagnostico' ? 'cerca de 90 segundos' : 'cerca de 2 minutos';
+    return `
+      <div class="q-intro">
+        <span class="q-intro-icone anim" style="--i:0">${q.icone}</span>
+        <p class="eyebrow anim" style="--i:1">Quiz</p>
+        <h2 class="q-intro-nome anim" style="--i:2">${q.nome}</h2>
+        <p class="q-intro-chamada anim" style="--i:3">${q.chamada}</p>
+        <p class="q-intro-meta anim" style="--i:4">${totalPerguntas} perguntas · ${tempo}</p>
+        <button class="btn-lime anim" style="--i:5" data-comecar type="button">Começar</button>
+      </div>`;
   }
 
   function telaPerfil(q) {
@@ -753,6 +775,7 @@
         setTimeout(() => responder(+opcao.dataset.opcao), multipla ? 0 : 200);
         return;
       }
+      if (e.target.closest('[data-comecar]')) { S.intro = false; render(); return; }
       if (e.target.closest('[data-confirmar]')) { S.etapa++; render(); return; }
       if (e.target.closest('[data-quiz-refazer]')) { abrirQuiz(S.quiz.id); return; }
       if (e.target.closest('[data-captura]')) {
